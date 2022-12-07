@@ -61,11 +61,11 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         password: md5(password),
       });
 
-      if (data.user && data.user.token) {
-        const { user } = data;
+      if (data.user && data.token) {
+        const { user, token } = data;
 
-        storageUserAndTokenSave(user, user.token);
-        userAndTokenUpdate(user, user.token);
+        storageUserAndTokenSave(user, token);
+        userAndTokenUpdate(user, token);
       }
     } catch (error) {
       throw error;

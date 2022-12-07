@@ -11,18 +11,21 @@ import ProfileSvg from "@assets/profile.svg";
 import { useTheme } from "native-base";
 import { AdmHome } from "@screens/adm.home";
 import { AdmProfile } from "@screens/adm.Profile";
+import { AdmStudent } from "@screens/adm.student";
+import { AdmStudentProfile } from "@screens/adm.student.profile";
 
 type AdminRoutes = {
   home: undefined;
-  exercise: undefined;
+  student: undefined;
+  studentProfile: undefined;
+  serie: undefined;
   profile: undefined;
   history: undefined;
 };
 
-export type AppNavigatorRoutesProps = BottomTabNavigationProp<AdminRoutes>;
+export type AdmNavigatorRoutesProps = BottomTabNavigationProp<AdminRoutes>;
 
 const { Navigator, Screen } = createBottomTabNavigator<AdminRoutes>();
-
 
 export function AdminRoutes() {
   const { sizes, colors } = useTheme();
@@ -55,8 +58,17 @@ export function AdminRoutes() {
         }}
       />
       <Screen
-        name="history"
-        component={AdmHome}
+        name="student"
+        component={AdmStudent}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <HistorySvg fill={color} width={iconSize} height={iconSize} />
+          ),
+        }}
+      />
+      <Screen
+        name="serie"
+        component={AdmStudent}
         options={{
           tabBarIcon: ({ color }) => (
             <HistorySvg fill={color} width={iconSize} height={iconSize} />
@@ -72,11 +84,11 @@ export function AdminRoutes() {
           ),
         }}
       />
-      {/* <Screen
-        name="exercise"
-        component={Exercise}
+      <Screen
+        name="studentProfile"
+        component={AdmStudentProfile}
         options={{ tabBarButton: () => null }}
-      /> */}
+      />
     </Navigator>
   );
 }
