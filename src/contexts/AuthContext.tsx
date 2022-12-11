@@ -7,6 +7,11 @@ import {
   storageAuthTokenSave,
 } from "@storage/storageAuthToken";
 import {
+  storageAuthRefreshTokenGet,
+  storageAuthRefreshTokenRemove,
+  storageAuthRefreshTokenSave,
+} from "@storage/storageAuthRefreshToken";
+import {
   storageUserSave,
   storageUserGet,
   storageUserRemove,
@@ -42,11 +47,16 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     setUser(userData);
   }
 
-  async function storageUserAndTokenSave(userData: UserDTO, token: string) {
+  async function storageUserAndTokenSave(
+    userData: UserDTO,
+    token: string,
+    refreshToken: string
+  ) {
     try {
       setIsLoadingUserStorageData(true);
       await storageUserSave(userData);
       await storageAuthTokenSave(token);
+      await storageAuthRefreshTokenSave(refreshToken);
     } catch (error) {
       throw error;
     } finally {
@@ -61,10 +71,10 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         password: md5(password),
       });
 
-      if (data.user && data.token) {
-        const { user, token } = data;
+      if (data.user && data.token && data.refreshToken) {
+        const { user, token, refreshToken } = data;
 
-        storageUserAndTokenSave(user, token);
+        storageUserAndTokenSave(user, token, refreshToken);
         userAndTokenUpdate(user, token);
       }
     } catch (error) {
@@ -81,6 +91,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
       await storageUserRemove();
       await storageAuthTokenRemove();
+      await storageAuthRefreshTokenRemove();
       //
     } catch (error) {
       throw error;

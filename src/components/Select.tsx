@@ -5,11 +5,15 @@ import {
 } from "native-base";
 
 type Props = ISelectProps & {
+  itens: {
+    label: string;
+    value: string;
+  }[];
   errorMessage?: string | null;
 };
 
-export function Select({ errorMessage = null, ...rest }: Props) {
-
+export function Select({ itens, errorMessage = null, ...rest }: Props) {
+  const invalid = !!errorMessage;
   return (
     <FormControl isInvalid={invalid} mb={4}>
       <NativeBaseSelect
@@ -17,22 +21,20 @@ export function Select({ errorMessage = null, ...rest }: Props) {
         h={14}
         px={4}
         borderWidth={0}
+        placeholderTextColor="gray.300" 
         fontSize="md"
         color="white"
         fontFamily="body"
-
- 
-        _invalid={{
-          borderWidth: 1,
-          borderColor: "red.500",
-        }}
-        _focus={{
-          bg: "gray.700",
-          borderWidth: 1,
-          borderColor: "green.500",
-        }}
         {...rest}
-      />
+      >
+        {itens.map((item) => (
+          <NativeBaseSelect.Item
+            key={item.value}
+            label={item.label}
+            value={item.value}
+          />
+        ))}
+      </NativeBaseSelect>
 
       <FormControl.ErrorMessage _text={{ color: "red.500" }}>
         {errorMessage}

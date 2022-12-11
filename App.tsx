@@ -9,6 +9,7 @@ import {
 import { Loading } from "@components/Loading";
 import { Routes } from "@routes/index";
 import { AuthContextProvider } from "@contexts/AuthContext";
+import { StudentContextProvider } from "@contexts/StudentContext";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -24,7 +25,9 @@ export default function App() {
         translucent
       />
       <AuthContextProvider>
-        {fontsLoaded ? <Routes /> : <Loading />}
+        <StudentContextProvider>
+          {fontsLoaded ? <Routes /> : <Loading />}
+        </StudentContextProvider>
       </AuthContextProvider>
     </NativeBaseProvider>
   );

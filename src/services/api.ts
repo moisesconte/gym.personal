@@ -5,6 +5,10 @@ import {
   storageAuthTokenGet,
   storageAuthTokenSave,
 } from "@storage/storageAuthToken";
+import {
+  storageAuthRefreshTokenGet,
+  storageAuthRefreshTokenSave,
+} from "@storage/storageAuthRefreshToken";
 
 type PromiseType = {
   resolve: (value?: unknown) => void;
@@ -26,7 +30,7 @@ type ApiInstanceProps = AxiosInstance & {
 };
 
 const api = axios.create({
-  baseURL: "http://192.168.15.118:3004/api",
+  baseURL: "http://192.168.15.118:3333/api",
 }) as ApiInstanceProps;
 
 let isRefreshing = false;
@@ -53,9 +57,10 @@ api.registerIntercepetTokenManager = ({ signOut, refreshTokenUpdated }) => {
           requestError.response.data?.message === "token.expired" ||
           requestError.response.data?.message === "token.invalid"
         ) {
-          const oldToken = await storageAuthTokenGet();
+          //const oldToken = await storageAuthTokenGet();
+          const refreshToken = await storageAuthRefreshTokenGet();
 
-          if (!oldToken) {
+          if (!refreshToken) {
             signOut();
             return Promise.reject(requestError);
           }
@@ -81,9 +86,10 @@ api.registerIntercepetTokenManager = ({ signOut, refreshTokenUpdated }) => {
           return new Promise(async (resolve, reject) => {
             try {
               const { data } = await api.post("/user/refresh", {
-                token: oldToken,
+                refreshToken,
               });
               await storageAuthTokenSave(data.token);
+              await storageAuthRefreshTokenSave(data.refreshToken);
 
               api.defaults.headers.common[
                 "Authorization"

@@ -17,7 +17,9 @@ import { AdmStudentProfile } from "@screens/adm.student.profile";
 type AdminRoutes = {
   home: undefined;
   student: undefined;
-  studentProfile: undefined;
+  studentProfile: {
+    studentId: number;
+  };
   serie: undefined;
   profile: undefined;
   history: undefined;
