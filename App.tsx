@@ -10,6 +10,9 @@ import { Loading } from "@components/Loading";
 import { Routes } from "@routes/index";
 import { AuthContextProvider } from "@contexts/AuthContext";
 import { StudentContextProvider } from "@contexts/StudentContext";
+import { ToastContextProvider } from "@contexts/ToastContext";
+
+
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -24,11 +27,13 @@ export default function App() {
         backgroundColor="transparent"
         translucent
       />
-      <AuthContextProvider>
-        <StudentContextProvider>
-          {fontsLoaded ? <Routes /> : <Loading />}
-        </StudentContextProvider>
-      </AuthContextProvider>
+      <ToastContextProvider>
+        <AuthContextProvider>
+          <StudentContextProvider>
+            {fontsLoaded ? <Routes /> : <Loading />}
+          </StudentContextProvider>
+        </AuthContextProvider>
+      </ToastContextProvider>
     </NativeBaseProvider>
   );
 }

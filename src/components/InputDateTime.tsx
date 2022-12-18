@@ -2,15 +2,18 @@ import {
   Input as NativeBaseInput,
   IPinInputProps,
   FormControl,
+  IconButton,
+  Icon,
   Text,
 } from "native-base";
+import { Feather } from "@expo/vector-icons";
 
 type Props = IPinInputProps & {
   label?: string;
   errorMessage?: string | null;
 };
 
-export function Input({
+export function InputDateTime({
   label,
   errorMessage = null,
   isInvalid,
@@ -33,6 +36,13 @@ export function Input({
         color="white"
         fontFamily="body"
         placeholderTextColor="gray.300"
+        rightElement={
+          <IconButton
+            icon={<Icon as={Feather} name="calendar" color="green.500" />}
+            bgColor="gray.600"
+            borderLeftRadius="none"
+          />
+        }
         isInvalid={invalid}
         _invalid={{
           borderWidth: 1,

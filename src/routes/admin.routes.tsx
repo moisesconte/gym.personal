@@ -11,15 +11,11 @@ import ProfileSvg from "@assets/profile.svg";
 import { useTheme } from "native-base";
 import { AdmHome } from "@screens/adm.home";
 import { AdmProfile } from "@screens/adm.Profile";
-import { AdmStudent } from "@screens/adm.student";
-import { AdmStudentProfile } from "@screens/adm.student.profile";
+import { AdmStackRoutes } from "./admin.stack.routes";
 
 type AdminRoutes = {
   home: undefined;
   student: undefined;
-  studentProfile: {
-    studentId: number;
-  };
   serie: undefined;
   profile: undefined;
   history: undefined;
@@ -59,24 +55,27 @@ export function AdminRoutes() {
           ),
         }}
       />
+
       <Screen
         name="student"
-        component={AdmStudent}
+        component={AdmStackRoutes}
         options={{
           tabBarIcon: ({ color }) => (
             <HistorySvg fill={color} width={iconSize} height={iconSize} />
           ),
         }}
       />
-      <Screen
+
+      {/* <Screen
         name="serie"
-        component={AdmStudent}
+        component={AdmStackRoutes}
         options={{
           tabBarIcon: ({ color }) => (
             <HistorySvg fill={color} width={iconSize} height={iconSize} />
           ),
         }}
-      />
+      /> */}
+
       <Screen
         name="profile"
         component={AdmProfile}
@@ -86,11 +85,12 @@ export function AdminRoutes() {
           ),
         }}
       />
-      <Screen
+
+      {/* <Screen
         name="studentProfile"
         component={AdmStudentProfile}
         options={{ tabBarButton: () => null }}
-      />
+      /> */}
     </Navigator>
   );
 }

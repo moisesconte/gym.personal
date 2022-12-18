@@ -54,10 +54,10 @@ api.registerIntercepetTokenManager = ({ signOut, refreshTokenUpdated }) => {
     async (requestError) => {
       if (requestError?.response?.status === 401) {
         if (
-          requestError.response.data?.message === "token.expired" ||
-          requestError.response.data?.message === "token.invalid"
+          requestError.response.data?.code === "token.expired" ||
+          requestError.response.data?.code === "token.invalid"
         ) {
-          //const oldToken = await storageAuthTokenGet();
+
           const refreshToken = await storageAuthRefreshTokenGet();
 
           if (!refreshToken) {
