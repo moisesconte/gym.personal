@@ -1,4 +1,8 @@
+import { ExcerciseGroupDTO } from "@dtos/ExerciseGroupDTO";
+import { ExerciseListDTO } from "@dtos/ExerciseListDTO";
+import { ExercisesDTO } from "@dtos/ExercisesDTO";
 import { StudentDTO } from "@dtos/StudentDTO";
+import { TrainingSheetExerciseDTO } from "@dtos/trainingSheetExerciseDTO";
 import { api } from "@services/api";
 import { createContext, ReactNode } from "react";
 
@@ -67,6 +71,21 @@ interface UpdateTrainingSheetResponse {
   }[];
 }
 
+interface FindExercisesByTrainingGroupIdRequest {
+  trainingGroupId: string;
+}
+
+interface FindExerciseByTrainingSheetExerciseIdRequest {
+  trainingSheetExerciseId: number;
+}
+
+interface TrainingExerciseRequest {
+  series: number;
+  repetitions: string;
+  trainingGroupId: number;
+  exerciseId: number;
+}
+
 export type StudentContextProps = {
   getAllStudent: () => Promise<StudentDTO[]>;
   getStudentById: (studentId: number) => Promise<StudentDTO>;
@@ -86,6 +105,15 @@ export type StudentContextProps = {
   updateTrainingSheet: (
     request: UpdateTrainingSheetRequest
   ) => Promise<UpdateTrainingSheetResponse>;
+  findExercisesByTrainingGroupId: (
+    request: FindExercisesByTrainingGroupIdRequest
+  ) => Promise<ExercisesDTO[]>;
+  findExerciseByTrainingSheetExerciseId: (
+    request: FindExerciseByTrainingSheetExerciseIdRequest
+  ) => Promise<TrainingSheetExerciseDTO>;
+  findExerciseGroupList: () => Promise<ExcerciseGroupDTO[]>;
+  findExerciseListByGroupId: (groupId: string) => Promise<ExerciseListDTO[]>;
+  trainingExerciseAdd: (request: TrainingExerciseRequest) => Promise<void>;
 };
 
 type StudentContextProviderProps = {
@@ -174,9 +202,7 @@ export function StudentContextProvider({
 
   async function findTrainingSheetById(trainingSheetId: number) {
     try {
-      const { data } = await api.get(
-        `/training-sheet/from/${trainingSheetId}`
-      );
+      const { data } = await api.get(`/training-sheet/from/${trainingSheetId}`);
 
       return {
         trainingSheet: data.trainingSheet,
@@ -209,6 +235,72 @@ export function StudentContextProvider({
     }
   }
 
+  async function findExercisesByTrainingGroupId(
+    request: FindExercisesByTrainingGroupIdRequest
+  ) {
+    try {
+      const { trainingGroupId } = request;
+
+      const { data } = await api.get(
+        `/training-sheet/exercises/from/${trainingGroupId}`
+      );
+
+      return data.exercises as ExercisesDTO[];
+      //
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async function findExerciseByTrainingSheetExerciseId(
+    request: FindExerciseByTrainingSheetExerciseIdRequest
+  ) {
+    try {
+      const { trainingSheetExerciseId } = request;
+
+      const { data } = await api.get(
+        `/training-sheet/exercise/from/${trainingSheetExerciseId}`
+      );
+
+      return data.exercise as TrainingSheetExerciseDTO;
+      //
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async function findExerciseGroupList() {
+    try {
+      const { data } = await api.get("/training-sheet/exercise-groups");
+
+      return data.exerciseGroups as ExcerciseGroupDTO[];
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async function findExerciseListByGroupId(groupId: string) {
+    try {
+      const { data } = await api.get(
+        `/training-sheet/exercise-list/from/${groupId}`
+      );
+
+      return data.exercises as ExerciseListDTO[];
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async function trainingExerciseAdd(request: TrainingExerciseRequest) {
+    try {
+      await api.post("/training-sheet/exercise/create", { ...request });
+
+      return;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   return (
     <StudentContext.Provider
       value={{
@@ -221,6 +313,11 @@ export function StudentContextProvider({
         findTrainingSheetById,
         createTrainingSheet,
         updateTrainingSheet,
+        findExercisesByTrainingGroupId,
+        findExerciseByTrainingSheetExerciseId,
+        findExerciseGroupList,
+        findExerciseListByGroupId,
+        trainingExerciseAdd,
       }}
     >
       {children}

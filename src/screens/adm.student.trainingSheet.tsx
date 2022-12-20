@@ -23,6 +23,7 @@ import { ScreenHeader } from "@components/ScreenHeader";
 import { useStudent } from "@hooks/useStudent";
 import { useToast } from "@hooks/useToast";
 import { StudentDTO } from "@dtos/StudentDTO";
+import { Loading } from "@components/Loading";
 
 type AdmTrainingSheetParams = {
   trainingSheetId: number;
@@ -60,8 +61,14 @@ export function AdmStudentTrainingSheet() {
     useState<TrainingSheetFormattedProps>({} as TrainingSheetFormattedProps);
   const [student, setStudent] = useState<StudentDTO>({} as StudentDTO);
   const [isActive, setIsActive] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const navigation = useNavigation<AdmStackNavigatorRoutesProps>();
   const route = useRoute();
+
+  interface TrainingGroup {
+    id: number;
+    name: string;
+  }
 
   const {
     getStudentById,
@@ -127,10 +134,11 @@ export function AdmStudentTrainingSheet() {
     }
   }
 
-  function handleOpenStudentTraining(trainingGroupId: number) {
+  function handleOpenStudentTraining(trainingGroup: TrainingGroup) {
     navigation.navigate("studentTraining", {
       studentId: studentId,
-      trainingGroupId: trainingGroupId,
+      trainingGroupId: trainingGroup.id,
+      trainingGroupName: trainingGroup.name,
     });
   }
 
@@ -171,12 +179,18 @@ export function AdmStudentTrainingSheet() {
       setIsActive(true);
     } catch (error) {
       handleError(error);
+    } finally {
+      setIsLoading(false);
     }
   }
 
   useEffect(() => {
     initialScreenLoading();
   }, []);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   if (!trainingSheetId) {
     return (
@@ -235,7 +249,7 @@ export function AdmStudentTrainingSheet() {
 
   return (
     <VStack flex={1}>
-      <ScreenHeader title="Ficha do aluno" />
+      <ScreenHeader title="Ficha do aluno(a)" />
 
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -314,7 +328,7 @@ export function AdmStudentTrainingSheet() {
               {trainingSheetFormatted?.trainingGroup?.map((trainingGroup) => (
                 <TouchableOpacity
                   key={trainingGroup.id}
-                  onPress={() => handleOpenStudentTraining(trainingGroup.id)}
+                  onPress={() => handleOpenStudentTraining(trainingGroup)}
                 >
                   <Box p={4} bg="gray.600" borderRadius="md">
                     <Text color="gray.200" fontSize="lg">

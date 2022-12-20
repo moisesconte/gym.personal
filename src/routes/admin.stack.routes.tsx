@@ -9,6 +9,7 @@ import { AdmStudentTrainingSheet } from "@screens/adm.student.trainingSheet";
 
 import { SignIn } from "@screens/SignIn";
 import { AdmStudentTraining } from "@screens/adm.student.training";
+import { AdmStudentTrainingRegister } from "@screens/adm.student.training.register";
 
 type StudentProfileProps = {
   studentId?: number;
@@ -26,7 +27,13 @@ type StudentTrainingSheetProps = {
 type StudentTrainingProps = {
   studentId: number;
   trainingGroupId: number;
+  trainingGroupName: string;
 };
+
+type StudentTrainingRegisterProps = {
+  trainingSheetExerciseId?: number;
+  trainingGroupId: number;
+}
 
 type AdmStackRoutesProps = {
   students: undefined;
@@ -34,6 +41,7 @@ type AdmStackRoutesProps = {
   studentTrainingSheetList: StudentTrainingSheetListProps;
   studentTrainingSheet: StudentTrainingSheetProps;
   studentTraining: StudentTrainingProps;
+  studentTrainingRegister: StudentTrainingRegisterProps;
 };
 
 export type AdmStackNavigatorRoutesProps =
@@ -55,6 +63,7 @@ export function AdmStackRoutes() {
       />
       <Screen name="studentTrainingSheet" component={AdmStudentTrainingSheet} />
       <Screen name="studentTraining" component={AdmStudentTraining} />
+      <Screen name="studentTrainingRegister" component={AdmStudentTrainingRegister} />
     </Navigator>
   );
 }

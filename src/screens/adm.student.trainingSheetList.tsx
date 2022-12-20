@@ -1,5 +1,6 @@
 import { Button } from "@components/Button";
 import { CardTrainingSheet } from "@components/CardAdmTrainingSheet";
+import { Loading } from "@components/Loading";
 import { ScreenHeader } from "@components/ScreenHeader";
 import { StudentDTO } from "@dtos/StudentDTO";
 import { useStudent } from "@hooks/useStudent";
@@ -32,6 +33,7 @@ export function AdmStudentTrainingSheetList() {
     []
   );
   const [student, setStudent] = useState<StudentDTO>({} as StudentDTO);
+  const [isLoading, setIsLoading] = useState(true);
   const { getStudentById, findManyTrainingSheet } = useStudent();
   const { handleError, showToast } = useToast();
 
@@ -76,12 +78,18 @@ export function AdmStudentTrainingSheetList() {
       await listTrainingSheets();
     } catch (error) {
       handleError(error);
+    } finally {
+      setIsLoading(false);
     }
   }
 
   useEffect(() => {
     initialScreenLoading();
   }, [isFocused]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <VStack flex={1}>

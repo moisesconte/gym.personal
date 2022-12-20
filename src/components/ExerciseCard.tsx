@@ -1,10 +1,22 @@
 import { TouchableOpacity, TouchableOpacityProps } from "react-native";
 import { Heading, HStack, Image, Text, VStack, Icon } from "native-base";
 import { Entypo } from "@expo/vector-icons";
+import { api } from "@services/api";
 
-type Props = TouchableOpacityProps & {};
+type Props = TouchableOpacityProps & {
+  name: string;
+  series: string;
+  repetitions: string;
+  thumb: string;
+};
 
-export function ExerciseCard({ ...rest }: Props) {
+export function ExerciseCard({
+  name,
+  series,
+  repetitions,
+  thumb,
+  ...rest
+}: Props) {
   return (
     <TouchableOpacity {...rest}>
       <HStack
@@ -17,7 +29,7 @@ export function ExerciseCard({ ...rest }: Props) {
       >
         <Image
           source={{
-            uri: "http://conteudo.imguol.com.br/c/entretenimento/0c/2019/12/03/remada-unilateral-com-halteres-1575402100538_v2_600x600.jpg",
+            uri: `${api.defaults.baseURL}/exercise/thumb/${thumb}`,
           }}
           alt="Imagem do exercício"
           w={16}
@@ -29,10 +41,10 @@ export function ExerciseCard({ ...rest }: Props) {
 
         <VStack flex={1}>
           <Heading fontSize="lg" fontFamily="heading" color="white">
-            Remada unilaretal
+            {name}
           </Heading>
           <Text fontSize="sm" color="gray.200" mt={1} numberOfLines={2}>
-            3 séries x 12 repetições
+            {`${series} séries x ${repetitions} repetições`}
           </Text>
         </VStack>
 
