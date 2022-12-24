@@ -37,7 +37,7 @@ export function AdmStudent() {
     initialLoading();
   }, [isFocused]);
 
-  function handleOpenStudentProfile(studentId: number) {
+  function handleOpenStudentProfile(studentId: string) {
     navigation.navigate("studentProfile", {
       studentId,
     });

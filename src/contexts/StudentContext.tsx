@@ -16,7 +16,7 @@ interface CreateStudentRequest {
 }
 
 interface UpdateStudentRequest {
-  student_id: number;
+  student_id: string;
   name: string;
   photo_url?: string;
   birth_date: string;
@@ -27,7 +27,7 @@ interface UpdateStudentRequest {
 
 interface FindManyTrainingSheetResponse {
   trainingSheets: {
-    id: number;
+    id: string;
     name: string;
     canceled_at: Date;
     create_at: Date;
@@ -36,37 +36,37 @@ interface FindManyTrainingSheetResponse {
 
 interface FindTrainingSheetResponse {
   trainingSheet: {
-    id: number;
+    id: string;
     name: string;
     canceled_at: Date;
     create_at: Date;
 
     trainingGroup: {
-      id: number;
+      id: string;
       name: string;
     }[];
   };
 }
 
 interface CreateTrainingSheetRequest {
-  student_id: number;
+  student_id: string;
   name: string;
 }
 
 interface UpdateTrainingSheetRequest {
-  trainingSheetId: number;
+  trainingSheetId: string;
   name: string;
   actived: boolean;
 }
 
 interface UpdateTrainingSheetResponse {
-  id: number;
+  id: string;
   name: string;
   canceled_at: Date;
   create_at: Date;
 
   trainingGroup: {
-    id: number;
+    id: string;
     name: string;
   }[];
 }
@@ -76,30 +76,30 @@ interface FindExercisesByTrainingGroupIdRequest {
 }
 
 interface FindExerciseByTrainingSheetExerciseIdRequest {
-  trainingSheetExerciseId: number;
+  trainingSheetExerciseId: string;
 }
 
 interface TrainingExerciseRequest {
-  series: number;
+  series: string;
   repetitions: string;
-  trainingGroupId: number;
-  exerciseId: number;
+  trainingGroupId: string;
+  exerciseId: string;
 }
 
 export type StudentContextProps = {
   getAllStudent: () => Promise<StudentDTO[]>;
-  getStudentById: (studentId: number) => Promise<StudentDTO>;
+  getStudentById: (studentId: string) => Promise<StudentDTO>;
   createStudent: (request: CreateStudentRequest) => Promise<void>;
   updateStudent: (request: UpdateStudentRequest) => Promise<void>;
   updateAvatar: (
-    studentId: number,
+    studentId: string,
     avatarUploadForm: FormData
   ) => Promise<StudentDTO>;
   findManyTrainingSheet: (
-    studentId: number
+    studentId: string
   ) => Promise<FindManyTrainingSheetResponse>;
   findTrainingSheetById: (
-    trainingSheetId: number
+    trainingSheetId: string
   ) => Promise<FindTrainingSheetResponse>;
   createTrainingSheet: (request: CreateTrainingSheetRequest) => Promise<void>;
   updateTrainingSheet: (
@@ -130,7 +130,7 @@ export function StudentContextProvider({
   //
   async function getAllStudent() {
     try {
-      const { data } = await api.get("/student/all");
+      const { data } = await api.get("/student/list");
 
       return data?.students as StudentDTO[];
     } catch (error) {
@@ -138,7 +138,7 @@ export function StudentContextProvider({
     }
   }
 
-  async function getStudentById(studentId: number) {
+  async function getStudentById(studentId: string) {
     try {
       const { data } = await api.get(`/student/find/${studentId}`);
 
@@ -168,7 +168,7 @@ export function StudentContextProvider({
     }
   }
 
-  async function updateAvatar(studentId: number, avatarUploadForm: FormData) {
+  async function updateAvatar(studentId: string, avatarUploadForm: FormData) {
     try {
       const response = await api.patch(
         `/student/avatar/${studentId}`,
@@ -186,10 +186,12 @@ export function StudentContextProvider({
     }
   }
 
-  async function findManyTrainingSheet(studentId: number) {
+  //TODO: separar em uma nova contextAPI...
+
+  async function findManyTrainingSheet(studentId: string) {
     try {
       const { data } = await api.get(
-        `/training-sheet/many/from/${Number(studentId)}`
+        `/training-sheet/list/${studentId}`
       );
 
       return {
@@ -200,9 +202,9 @@ export function StudentContextProvider({
     }
   }
 
-  async function findTrainingSheetById(trainingSheetId: number) {
+  async function findTrainingSheetById(trainingSheetId: string) {
     try {
-      const { data } = await api.get(`/training-sheet/from/${trainingSheetId}`);
+      const { data } = await api.get(`/training-sheet/find/${trainingSheetId}`);
 
       return {
         trainingSheet: data.trainingSheet,
@@ -242,10 +244,10 @@ export function StudentContextProvider({
       const { trainingGroupId } = request;
 
       const { data } = await api.get(
-        `/training-sheet/exercises/from/${trainingGroupId}`
+        `/training-sheet/list-exercises/${trainingGroupId}`
       );
 
-      return data.exercises as ExercisesDTO[];
+      return data.trainingSheetExercises as ExercisesDTO[];
       //
     } catch (error) {
       throw error;
@@ -259,33 +261,11 @@ export function StudentContextProvider({
       const { trainingSheetExerciseId } = request;
 
       const { data } = await api.get(
-        `/training-sheet/exercise/from/${trainingSheetExerciseId}`
+        `/training-sheet/find-exercise/${trainingSheetExerciseId}`
       );
 
-      return data.exercise as TrainingSheetExerciseDTO;
+      return data.trainingSheetExercise as TrainingSheetExerciseDTO;
       //
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  async function findExerciseGroupList() {
-    try {
-      const { data } = await api.get("/training-sheet/exercise-groups");
-
-      return data.exerciseGroups as ExcerciseGroupDTO[];
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  async function findExerciseListByGroupId(groupId: string) {
-    try {
-      const { data } = await api.get(
-        `/training-sheet/exercise-list/from/${groupId}`
-      );
-
-      return data.exercises as ExerciseListDTO[];
     } catch (error) {
       throw error;
     }
@@ -293,9 +273,31 @@ export function StudentContextProvider({
 
   async function trainingExerciseAdd(request: TrainingExerciseRequest) {
     try {
-      await api.post("/training-sheet/exercise/create", { ...request });
+      await api.post("/training-sheet/exercise/add", { ...request });
 
       return;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  //TODO: separar em uma nova contextAPI...
+  async function findExerciseGroupList() {
+    try {
+      const { data } = await api.get("/exercise-group/list");
+
+      return data.exerciseGroups as ExcerciseGroupDTO[];
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  //TODO: separar em uma nova contextAPI...
+  async function findExerciseListByGroupId(groupId: string) {
+    try {
+      const { data } = await api.get(`/exercise/list/${groupId}`);
+
+      return data.exercises as ExerciseListDTO[];
     } catch (error) {
       throw error;
     }

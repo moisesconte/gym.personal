@@ -1,4 +1,4 @@
 export type ExcerciseGroupDTO = {
-  id: number;
+  id: string;
   name: string;
 };

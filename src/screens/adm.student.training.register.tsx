@@ -1,4 +1,8 @@
-import { useIsFocused, useRoute } from "@react-navigation/native";
+import {
+  useIsFocused,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
 import { Center, Image, ScrollView, Text, VStack } from "native-base";
 import { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
@@ -16,14 +20,15 @@ import { TrainingSheetExerciseDTO } from "@dtos/trainingSheetExerciseDTO";
 import { useStudent } from "@hooks/useStudent";
 import { useToast } from "@hooks/useToast";
 import { api } from "@services/api";
+import { AdmStackNavigatorRoutesProps } from "@routes/admin.stack.routes";
 
 type AdmStudentTrainingRegisterProps = {
-  trainingSheetExerciseId: number;
-  trainingGroupId: number;
+  trainingSheetExerciseId: string;
+  trainingGroupId: string;
 };
 
 type FormDataProps = {
-  id: number;
+  id: string;
   series: string;
   repetitions: string;
   exerciseGroupId: string;
@@ -31,7 +36,7 @@ type FormDataProps = {
 };
 
 const formSchema = yup.object({
-  id: yup.number(),
+  id: yup.string(),
   series: yup.string().required("Informe o numéro de série a ser realizado."),
   repetitions: yup
     .string()
@@ -52,6 +57,7 @@ export function AdmStudentTrainingRegister() {
   const [exerciseList, setExerciseList] = useState<ExerciseListDTO[]>([]);
 
   const isFocused = useIsFocused();
+  const navigation = useNavigation<AdmStackNavigatorRoutesProps>();
   const route = useRoute();
   const { trainingSheetExerciseId, trainingGroupId } =
     route.params as AdmStudentTrainingRegisterProps;
@@ -83,10 +89,12 @@ export function AdmStudentTrainingRegister() {
           await findExerciseByTrainingSheetExerciseId({
             trainingSheetExerciseId,
           });
+
+        console.log("trainingSheetExerciseData => ", trainingSheetExerciseData);
         setTrainingSheetExercise(trainingSheetExerciseData);
 
         const exercises = await findExerciseListByGroupId(
-          String(trainingSheetExerciseData.exercise.group.id)
+          trainingSheetExerciseData.exercise.group.id
         );
 
         setExerciseList(exercises);
@@ -108,17 +116,17 @@ export function AdmStudentTrainingRegister() {
 
   async function handleSubmitForm(formData: FormDataProps) {
     try {
-      console.log(formData);
+      // console.log(formData);
       setIsLoadingSaveExercise(true);
 
       const { id, series, repetitions, exerciseGroupId, exerciseId } = formData;
       if (!trainingSheetExerciseId) {
         //create
         await trainingExerciseAdd({
-          series: Number(series),
+          series,
           repetitions,
           trainingGroupId,
-          exerciseId: Number(exerciseId),
+          exerciseId,
         });
 
         showToast({
@@ -126,6 +134,8 @@ export function AdmStudentTrainingRegister() {
           placement: "top",
           bgColor: "green.500",
         });
+
+        navigation.goBack();
       }
     } catch (error) {
       handleError(error);

@@ -29,7 +29,7 @@ export function ExerciseCard({
       >
         <Image
           source={{
-            uri: `${api.defaults.baseURL}/exercise/thumb/${thumb}`,
+            uri: `${api.defaults.baseURL}/exercise-thumb/${thumb}`,
           }}
           alt="Imagem do exercício"
           w={16}

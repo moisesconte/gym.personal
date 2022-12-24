@@ -66,7 +66,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
   async function signIn(login: string, password: string) {
     try {
-      const { data } = await api.post("/user/signin", {
+      const { data } = await api.post("/auth/signin", {
         login,
         password: md5(password),
       });

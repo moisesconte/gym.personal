@@ -7,32 +7,31 @@ import { AdmStudentProfile } from "@screens/adm.student.profile";
 import { AdmStudentTrainingSheetList } from "@screens/adm.student.trainingSheetList";
 import { AdmStudentTrainingSheet } from "@screens/adm.student.trainingSheet";
 
-import { SignIn } from "@screens/SignIn";
 import { AdmStudentTraining } from "@screens/adm.student.training";
 import { AdmStudentTrainingRegister } from "@screens/adm.student.training.register";
 
 type StudentProfileProps = {
-  studentId?: number;
+  studentId?: string;
 };
 
 type StudentTrainingSheetListProps = {
-  studentId?: number;
+  studentId?: string;
 };
 
 type StudentTrainingSheetProps = {
-  trainingSheetId?: number;
-  studentId?: number;
+  trainingSheetId?: string;
+  studentId?: string;
 };
 
 type StudentTrainingProps = {
-  studentId: number;
-  trainingGroupId: number;
+  studentId: string;
+  trainingGroupId: string;
   trainingGroupName: string;
 };
 
 type StudentTrainingRegisterProps = {
-  trainingSheetExerciseId?: number;
-  trainingGroupId: number;
+  trainingSheetExerciseId?: string;
+  trainingGroupId: string;
 }
 
 type AdmStackRoutesProps = {

@@ -42,7 +42,7 @@ import { AdmStackNavigatorRoutesProps } from "@routes/admin.stack.routes";
 const PHOTO_SIZE = 33;
 
 type RouteParamsProps = {
-  studentId?: number;
+  studentId?: string;
 };
 
 type FormDataProps = {

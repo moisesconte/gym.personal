@@ -26,19 +26,19 @@ import { api } from "@services/api";
 import { AdmStackNavigatorRoutesProps } from "@routes/admin.stack.routes";
 
 type AdmStudentTrainingParams = {
-  studentId: number;
-  trainingGroupId: number;
+  studentId: string;
+  trainingGroupId: string;
   trainingGroupName: string;
 };
 
 interface ExerciseList {
   groupName: string;
   data: {
-    exerciseId: number;
+    exerciseId: string;
     exerciseName: string;
     repetitions: string;
     series: string;
-    trainingSheetId: number;
+    trainingSheetId: string;
     exerciseThumb: string;
     exerciseDemo: string;
   }[];
@@ -66,18 +66,17 @@ export function AdmStudentTraining() {
       const exercises = await findExercisesByTrainingGroupId({
         trainingGroupId: String(trainingGroupId),
       });
-      //console.log(exercisesData);
 
       const exercisesFormatted = exercises.map((item) => {
         return {
-          trainingSheetId: item.trainingSheetId,
+          trainingSheetId: item.id,
           repetitions: item.repetitions,
           series: item.series,
-          exerciseId: item.exercise.exerciseId,
+          exerciseId: item.exercise.id,
           exerciseName: item.exercise.name,
           exerciseDemo: item.exercise.demo,
           exerciseThumb: item.exercise.thumb,
-          groupId: item.exercise.group.groupId,
+          groupId: item.exercise.group.id,
           groupName: item.exercise.group.name,
         };
       });
@@ -110,7 +109,7 @@ export function AdmStudentTraining() {
     }, {});
   }
 
-  function handleOpenTrainingSheetExercise(trainingSheetExerciseId: number) {
+  function handleOpenTrainingSheetExercise(trainingSheetExerciseId: string) {
     navigation.navigate("studentTrainingRegister", {
       trainingSheetExerciseId,
       trainingGroupId,
@@ -147,7 +146,7 @@ export function AdmStudentTraining() {
 
           <SectionList
             sections={exerciseList}
-            keyExtractor={(item, index) => String(item.exerciseId)}
+            keyExtractor={(item, index) => item.exerciseId}
             showsVerticalScrollIndicator={false}
             renderItem={({ item }) => (
               <ExerciseCard

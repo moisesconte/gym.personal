@@ -85,7 +85,7 @@ api.registerIntercepetTokenManager = ({ signOut, refreshTokenUpdated }) => {
 
           return new Promise(async (resolve, reject) => {
             try {
-              const { data } = await api.post("/user/refresh", {
+              const { data } = await api.post("/auth/refresh", {
                 refreshToken,
               });
               await storageAuthTokenSave(data.token);

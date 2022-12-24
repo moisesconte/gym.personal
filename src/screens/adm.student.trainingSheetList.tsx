@@ -18,14 +18,14 @@ import { Box, FlatList, HStack, Text, VStack } from "native-base";
 import { useEffect, useState } from "react";
 
 interface TrainingSheet {
-  id: number;
+  id: string;
   name: string;
   createAtFormatted: string;
   isActive: boolean;
 }
 
 interface AdmStudentTrainingSheetListProps {
-  studentId: number;
+  studentId: string;
 }
 
 export function AdmStudentTrainingSheetList() {
@@ -47,7 +47,7 @@ export function AdmStudentTrainingSheetList() {
     navigation.navigate("studentTrainingSheet", { studentId });
   }
 
-  function handleOpenStudentTrainingSheet(trainingSheetId: number) {
+  function handleOpenStudentTrainingSheet(trainingSheetId: string) {
     navigation.navigate("studentTrainingSheet", { trainingSheetId, studentId });
   }
 

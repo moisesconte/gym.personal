@@ -1,7 +1,7 @@
 export type ExerciseListDTO = {
-  id: number;
+  id: string;
   name: string;
   demo: string;
   thumb: string;
-  group_id: number;
+  group_id: string;
 };

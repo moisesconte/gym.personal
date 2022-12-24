@@ -26,31 +26,31 @@ import { StudentDTO } from "@dtos/StudentDTO";
 import { Loading } from "@components/Loading";
 
 type AdmTrainingSheetParams = {
-  trainingSheetId: number;
-  studentId: number;
+  trainingSheetId: string;
+  studentId: string;
 };
 
 type FormDataProps = {
-  id: number;
+  id: string;
   name: string;
   actived: boolean;
   create_at: Date;
 };
 
 interface TrainingSheetFormattedProps {
-  id: number;
+  id: string;
   name: string;
   canceled_at: string;
   create_at: string;
 
   trainingGroup: {
-    id: number;
+    id: string;
     name: string;
   }[];
 }
 
 const formSchema = yup.object({
-  id: yup.number(),
+  id: yup.string(),
   name: yup.string().required("Campo obrigatório"),
   actived: yup.boolean(),
   create_at: yup.date().nullable(),
@@ -66,7 +66,7 @@ export function AdmStudentTrainingSheet() {
   const route = useRoute();
 
   interface TrainingGroup {
-    id: number;
+    id: string;
     name: string;
   }
 

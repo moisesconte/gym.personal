@@ -1,14 +1,16 @@
 export type TrainingSheetExerciseDTO = {
-  id: number;
+  id: string;
   repetitions: string;
-  series: number;
+  series: string;
+  trainingGroup_id: string;
+  exercise_id: string;
   exercise: {
-    id: number;
+    id: string;
     name: string;
     demo: string;
     thumb: string;
     group: {
-      id: number;
+      id: string;
       name: string;
     };
   };
