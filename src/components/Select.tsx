@@ -3,6 +3,8 @@ import {
   ISelectProps,
   FormControl,
   Text,
+  HStack,
+  Box,
 } from "native-base";
 
 type Props = ISelectProps & {
@@ -10,6 +12,7 @@ type Props = ISelectProps & {
   itens: {
     label: string;
     value: string;
+    isDisabled?: boolean;
   }[];
   errorMessage?: string | null;
 };
@@ -43,6 +46,7 @@ export function Select({ label, itens, errorMessage = null, ...rest }: Props) {
         {itens.map((item) => (
           <NativeBaseSelect.Item
             key={item.value}
+            isDisabled={item.isDisabled}            
             label={item.label}
             value={item.value}
           />

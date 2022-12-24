@@ -113,7 +113,12 @@ export type StudentContextProps = {
   ) => Promise<TrainingSheetExerciseDTO>;
   findExerciseGroupList: () => Promise<ExcerciseGroupDTO[]>;
   findExerciseListByGroupId: (groupId: string) => Promise<ExerciseListDTO[]>;
+  findExerciseAvailableList: (
+    exerciseGroupId: string,
+    trainingGroupId: string
+  ) => Promise<ExerciseListDTO[]>;
   trainingExerciseAdd: (request: TrainingExerciseRequest) => Promise<void>;
+  trainingExerciseRemove: (exerciseId: string) => Promise<void>;
 };
 
 type StudentContextProviderProps = {
@@ -190,9 +195,7 @@ export function StudentContextProvider({
 
   async function findManyTrainingSheet(studentId: string) {
     try {
-      const { data } = await api.get(
-        `/training-sheet/list/${studentId}`
-      );
+      const { data } = await api.get(`/training-sheet/list/${studentId}`);
 
       return {
         trainingSheets: data.trainingSheets,
@@ -281,6 +284,16 @@ export function StudentContextProvider({
     }
   }
 
+  async function trainingExerciseRemove(exerciseId: string) {
+    try {
+      await api.post("/training-sheet/exercise/remove", { exerciseId });
+
+      return;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   //TODO: separar em uma nova contextAPI...
   async function findExerciseGroupList() {
     try {
@@ -296,6 +309,21 @@ export function StudentContextProvider({
   async function findExerciseListByGroupId(groupId: string) {
     try {
       const { data } = await api.get(`/exercise/list/${groupId}`);
+
+      return data.exercises as ExerciseListDTO[];
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async function findExerciseAvailableList(
+    exerciseGroupId: string,
+    trainingGroupId: string
+  ) {
+    try {
+      const { data } = await api.get(
+        `/exercise/list-available-per/${exerciseGroupId}/and/${trainingGroupId}`
+      );
 
       return data.exercises as ExerciseListDTO[];
     } catch (error) {
@@ -319,7 +347,9 @@ export function StudentContextProvider({
         findExerciseByTrainingSheetExerciseId,
         findExerciseGroupList,
         findExerciseListByGroupId,
+        findExerciseAvailableList,
         trainingExerciseAdd,
+        trainingExerciseRemove
       }}
     >
       {children}

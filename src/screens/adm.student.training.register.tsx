@@ -65,7 +65,9 @@ export function AdmStudentTrainingRegister() {
     findExerciseByTrainingSheetExerciseId,
     findExerciseGroupList,
     findExerciseListByGroupId,
+    findExerciseAvailableList,
     trainingExerciseAdd,
+    trainingExerciseRemove,
   } = useStudent();
   const { showToast, handleError } = useToast();
 
@@ -90,7 +92,7 @@ export function AdmStudentTrainingRegister() {
             trainingSheetExerciseId,
           });
 
-        console.log("trainingSheetExerciseData => ", trainingSheetExerciseData);
+        // console.log("trainingSheetExerciseData => ", trainingSheetExerciseData);
         setTrainingSheetExercise(trainingSheetExerciseData);
 
         const exercises = await findExerciseListByGroupId(
@@ -155,8 +157,26 @@ export function AdmStudentTrainingRegister() {
 
   async function handleOpenSelectExercises(exerciseGroupId: string) {
     try {
-      const exercises = await findExerciseListByGroupId(exerciseGroupId);
+      const exercises = await findExerciseAvailableList(
+        exerciseGroupId,
+        trainingGroupId
+      );
       setExerciseList(exercises);
+    } catch (error) {
+      handleError(error);
+    }
+  }
+
+  async function handleRemoveExercise() {
+    try {
+      await trainingExerciseRemove(trainingSheetExerciseId);
+      showToast({
+        title: "Exercício excluído!",
+        placement: "top",
+        bgColor: "green.500",
+      });
+
+      navigation.goBack();
     } catch (error) {
       handleError(error);
     }
@@ -214,6 +234,7 @@ export function AdmStudentTrainingRegister() {
                   return {
                     label: item.name,
                     value: item.id.toString(),
+                    isDisabled: item.available ? false : true,
                   };
                 })}
                 isDisabled={!!trainingSheetExerciseId}
@@ -260,7 +281,7 @@ export function AdmStudentTrainingRegister() {
               <Center>
                 <Image
                   source={{
-                    uri: `${api.defaults.baseURL}/exercise/demo/${trainingSheetExercise?.exercise?.demo}`,
+                    uri: `${api.defaults.baseURL}/exercise-demo/${trainingSheetExercise?.exercise?.demo}`,
                   }}
                   alt="Demonstração do exercício"
                   w={64}
@@ -277,6 +298,7 @@ export function AdmStudentTrainingRegister() {
               <Button
                 title="Excluir"
                 bg="red.500"
+                onPress={handleRemoveExercise}
                 _pressed={{
                   bg: "red.400",
                 }}
