@@ -81,6 +81,8 @@ const genreTypes = [
 export function AdmStudentProfile() {
   const [student, setStudent] = useState<StudentDTO>({} as StudentDTO);
   const [isLoadingStudent, setIsLoadingStudent] = useState(true);
+  const [isLoadingCreateCredential, setIsLoadingCreateCredential] =
+    useState(false);
   const [photoIsLoading, setPhotoIsLoading] = useState(false);
 
   const [mode, setMode] = useState<any>("date");
@@ -91,8 +93,13 @@ export function AdmStudentProfile() {
   const route = useRoute();
   const { studentId } = route.params as RouteParamsProps;
 
-  const { getStudentById, createStudent, updateStudent, updateAvatar } =
-    useStudent();
+  const {
+    getStudentById,
+    createStudent,
+    updateStudent,
+    updateAvatar,
+    createCredentialApp,
+  } = useStudent();
   const { handleError, showToast } = useToast();
 
   const {
@@ -251,6 +258,25 @@ export function AdmStudentProfile() {
     navigation.navigate("studentTrainingSheetList", {
       studentId,
     });
+  }
+
+  async function handleCreateCredentialApp() {
+    try {
+      setIsLoadingCreateCredential(true);
+      await createCredentialApp(student.email);
+
+      showToast({
+        title:
+          "Acesso ao aplicativo criado com sucesso! Foi encaminhado os dados de acesso para o e-mail cadastrado.",
+        placement: "top",
+        bgColor: "green.500",
+      });
+    } catch (error) {
+      handleError(error);
+    } finally {
+      setIsLoadingCreateCredential(false);
+      initialLoading();
+    }
   }
 
   const onChange = (event: any, selectedDate: any) => {
@@ -416,7 +442,14 @@ export function AdmStudentProfile() {
                 title="Fichas"
                 onPress={handleStudentTrainingSheet}
               />
-              <Button variant="outline" title="Criar acesso ao app" />
+              {!student.user?.login && (
+                <Button
+                  variant="outline"
+                  title="Criar acesso ao app"
+                  isLoading={isLoadingCreateCredential}
+                  onPress={handleCreateCredentialApp}
+                />
+              )}
             </>
           )}
         </VStack>

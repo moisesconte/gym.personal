@@ -8,4 +8,14 @@ export type StudentDTO = {
   email: string;
   owner_id: string;
   create_at: string;
-}
+  owner: {
+    login: string;
+    name: string;
+  };
+  user: {
+    id: string;
+    login: string;
+    name: string;
+    role: string;
+  };
+};

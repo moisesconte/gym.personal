@@ -119,6 +119,7 @@ export type StudentContextProps = {
   ) => Promise<ExerciseListDTO[]>;
   trainingExerciseAdd: (request: TrainingExerciseRequest) => Promise<void>;
   trainingExerciseRemove: (exerciseId: string) => Promise<void>;
+  createCredentialApp: (email: string) => Promise<void>;
 };
 
 type StudentContextProviderProps = {
@@ -331,6 +332,16 @@ export function StudentContextProvider({
     }
   }
 
+  async function createCredentialApp(email: string) {
+    try {
+      await api.post("/student/create-credential-app", { email });
+
+      return;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   return (
     <StudentContext.Provider
       value={{
@@ -349,7 +360,8 @@ export function StudentContextProvider({
         findExerciseListByGroupId,
         findExerciseAvailableList,
         trainingExerciseAdd,
-        trainingExerciseRemove
+        trainingExerciseRemove,
+        createCredentialApp,
       }}
     >
       {children}
