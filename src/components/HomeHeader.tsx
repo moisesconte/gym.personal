@@ -5,14 +5,25 @@ import { Heading, HStack, Text, VStack, Icon } from "native-base";
 import defaultUserPhotoImg from "@assets/userPhotoDefault.png";
 import { UserPhoto } from "./UserPhoto";
 import { useAuth } from "@hooks/useAuth";
+import { api } from "@services/api";
+import { useEffect, useState } from "react";
 
 export function HomeHeader() {
   const { user, signOut } = useAuth();
+  const [userAvatar, setUserAvatar] = useState(user.photo_url);
+
+  useEffect(() => {
+    setUserAvatar(user.photo_url);
+  }, [user]);
 
   return (
     <HStack bg="gray.600" pt={16} pb={5} px={8} alignItems="center">
       <UserPhoto
-        source={user.photo_url ? { uri: user.photo_url } : defaultUserPhotoImg}
+        source={
+          user.photo_url
+            ? { uri: `${api.defaults.baseURL}/avatar/${userAvatar}` }
+            : defaultUserPhotoImg
+        }
         alt="Imagem do usuário"
         size={16}
         mr={4}

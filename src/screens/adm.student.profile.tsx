@@ -313,7 +313,7 @@ export function AdmStudentProfile() {
               source={
                 student.photo_url
                   ? {
-                      uri: `${api.defaults.baseURL}/student/avatar/${student.photo_url}`,
+                      uri: `${api.defaults.baseURL}/avatar/${student.photo_url}`,
                     }
                   : defaultUserPhotoImg
               }

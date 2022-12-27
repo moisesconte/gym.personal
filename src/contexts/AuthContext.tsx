@@ -7,7 +7,6 @@ import {
   storageAuthTokenSave,
 } from "@storage/storageAuthToken";
 import {
-  storageAuthRefreshTokenGet,
   storageAuthRefreshTokenRemove,
   storageAuthRefreshTokenSave,
 } from "@storage/storageAuthRefreshToken";
@@ -24,6 +23,7 @@ export type AuthContextDataProps = {
   user: UserDTO;
   signIn: (login: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
+  updateAvatar: (userId: string, avatarUploadForm: FormData) => Promise<any>;
   isLoadingUserStorageData: boolean;
   refreshedToken: string;
 };
@@ -66,7 +66,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
   async function signIn(login: string, password: string) {
     try {
-      const { data } = await api.post("/auth/signin", {
+      const { data } = await api.post("/auth/sessions", {
         login,
         password: md5(password),
       });
@@ -116,6 +116,36 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     }
   }
 
+  async function updateAvatar(userId: string, avatarUploadForm: FormData) {
+    try {
+      const { data } = await api.patch(
+        `/user/avatar/${userId}`,
+        avatarUploadForm,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      const { avatar_url } = data;
+
+      storageUserSave({
+        ...user,
+        photo_url: avatar_url,
+      });
+
+      setUser({
+        ...user,
+        photo_url: avatar_url,
+      });
+
+      return avatar_url;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   function refreshTokenUpdated(newToken: string) {
     setRefreshedToken(newToken);
   }
@@ -141,6 +171,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         user,
         signIn,
         signOut,
+        updateAvatar,
         isLoadingUserStorageData,
         refreshedToken,
       }}

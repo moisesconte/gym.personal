@@ -7,26 +7,27 @@ import {
   Skeleton,
   Text,
   Heading,
-  useToast,
 } from "native-base";
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
+import { api } from "@services/api";
 
 import { ScreenHeader } from "@components/ScreenHeader";
 import { UserPhoto } from "@components/UserPhoto";
 import { Input } from "@components/Input";
 import { Button } from "@components/Button";
 import { useAuth } from "@hooks/useAuth";
+import { useToast } from "@hooks/useToast";
+import defaultUserPhotoImg from "@assets/userPhotoDefault.png";
 
 const PHOTO_SIZE = 33;
 
 export function AdmProfile() {
-  const { user } = useAuth();
+  const { user, updateAvatar } = useAuth();
+  const { showToast, handleError } = useToast();
 
   const [photoIsLoading, setPhotoIsLoading] = useState(false);
   const [userPhoto, setUserPhoto] = useState(user.photo_url);
-
-  const toast = useToast();
 
   async function handleUserPhotoSelect() {
     setPhotoIsLoading(true);
@@ -47,17 +48,40 @@ export function AdmProfile() {
         const photoInfo = await FileSystem.getInfoAsync(photoSelected.uri);
 
         if (photoInfo.size && photoInfo.size / 1024 / 1024 > 5) {
-          return toast.show({
+          return showToast({
             title: "Essa imagem é muito grande. Escolha uma de até 5MB.",
             placement: "top",
             bgColor: "red.500",
           });
         }
 
-        setUserPhoto(photoSelected.uri);
+        const fileExtension = photoSelected.uri.split(".").pop();
+
+        const photoFile = {
+          name: `${user.name}.${fileExtension}`.toLowerCase(),
+          uri: photoSelected.uri,
+          type: `${photoSelected.type}/${fileExtension}`,
+        } as any;
+
+        const userPhotoUploadForm = new FormData();
+        userPhotoUploadForm.append("avatar", photoFile);
+
+        if (!user.id) {
+          return;
+        }
+
+        const avatar_url = await updateAvatar(user.id, userPhotoUploadForm);
+
+        setUserPhoto(avatar_url);
+
+        showToast({
+          title: "Avatar atualizado com sucesso",
+          placement: "top",
+          bgColor: "green.500",
+        });
       }
     } catch (error) {
-      console.log(error);
+      handleError(error);
     } finally {
       setPhotoIsLoading(false);
     }
@@ -79,7 +103,13 @@ export function AdmProfile() {
             />
           ) : (
             <UserPhoto
-              source={{ uri: userPhoto }}
+              source={
+                user.photo_url
+                  ? {
+                      uri: `${api.defaults.baseURL}/avatar/${userPhoto}`,
+                    }
+                  : defaultUserPhotoImg
+              }
               alt="Foto do usuário"
               size={PHOTO_SIZE}
             />
