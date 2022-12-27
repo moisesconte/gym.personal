@@ -14,6 +14,8 @@ import { History } from "@screens/History";
 import { Exercise } from "@screens/Exercise";
 import { useTheme } from "native-base";
 import { color } from "native-base/lib/typescript/theme/styled-system";
+import { AppStackRoutes } from "./app.stack.routes";
+import { StudentProfile } from "@screens/student.Profile";
 
 type AppRoutes = {
   home: undefined;
@@ -49,7 +51,7 @@ export function AppRoutes() {
     >
       <Screen
         name="home"
-        component={Home}
+        component={AppStackRoutes}
         options={{
           tabBarIcon: ({ color }) => (
             <HomeSvg fill={color} width={iconSize} height={iconSize} />
@@ -67,7 +69,7 @@ export function AppRoutes() {
       />
       <Screen
         name="profile"
-        component={Profile}
+        component={StudentProfile}
         options={{
           tabBarIcon: ({ color }) => (
             <ProfileSvg fill={color} width={iconSize} height={iconSize} />

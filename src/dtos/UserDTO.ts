@@ -7,4 +7,5 @@ export type UserDTO = {
   role: string;
   token: string;
   refresh_token: string;
+  student_id?: string;
 }
