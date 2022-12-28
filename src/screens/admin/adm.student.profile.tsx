@@ -24,7 +24,6 @@ import * as FileSystem from "expo-file-system";
 
 import defaultUserPhotoImg from "@assets/userPhotoDefault.png";
 
-import { ScreenHeader } from "@components/ScreenHeader";
 import { Input } from "@components/Input";
 import { UserPhoto } from "@components/UserPhoto";
 import { Button } from "@components/Button";
@@ -304,7 +303,7 @@ export function AdmStudentProfile() {
 
   return (
     <VStack flex={1}>
-      <ScreenHeader title="Perfil do aluno" />
+      {/* <ScreenHeader title="Perfil do aluno" /> */}
 
       <ScrollView contentContainerStyle={{ paddingBottom: 36 }}>
         <VStack p={4}>

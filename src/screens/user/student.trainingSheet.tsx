@@ -153,7 +153,7 @@ export function StudentTrainingSheet() {
 
   return (
     <VStack flex={1}>
-      <ScreenHeader title="Ficha do aluno(a)" />
+      {/* <ScreenHeader title="Ficha do aluno(a)" /> */}
 
       <ScrollView
         showsVerticalScrollIndicator={false}

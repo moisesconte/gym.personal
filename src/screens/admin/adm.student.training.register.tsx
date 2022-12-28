@@ -192,7 +192,7 @@ export function AdmStudentTrainingRegister() {
 
   return (
     <VStack flex={1}>
-      <ScreenHeader title="Cadastro de exercício" />
+      {/* <ScreenHeader title="Cadastro de exercício" /> */}
 
       <ScrollView contentContainerStyle={{ paddingBottom: 36 }}>
         <VStack p={4}>

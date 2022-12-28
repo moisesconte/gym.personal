@@ -24,6 +24,7 @@ export type AuthContextDataProps = {
   signIn: (login: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
   updateAvatar: (userId: string, avatarUploadForm: FormData) => Promise<any>;
+  updatePassword: (password: string, newPassword: string) => Promise<void>;
   isLoadingUserStorageData: boolean;
   refreshedToken: string;
 };
@@ -150,6 +151,17 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     setRefreshedToken(newToken);
   }
 
+  async function updatePassword(password: string, newPassword: string) {
+    try {
+      const { data } = await api.post("/user/update-password", {
+        password: md5(password),
+        newPassword: md5(newPassword),
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+
   useEffect(() => {
     loadUserData();
   }, []);
@@ -172,6 +184,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         signIn,
         signOut,
         updateAvatar,
+        updatePassword,
         isLoadingUserStorageData,
         refreshedToken,
       }}

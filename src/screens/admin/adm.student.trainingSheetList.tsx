@@ -93,7 +93,7 @@ export function AdmStudentTrainingSheetList() {
 
   return (
     <VStack flex={1}>
-      <ScreenHeader title="Fichas do aluno(a)" />
+      {/* <ScreenHeader title="Fichas do aluno(a)" /> */}
 
       <VStack p={4} space={4}>
         <Box p={4} bg="gray.500" borderRadius="md">

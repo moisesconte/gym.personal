@@ -54,7 +54,6 @@ export function StudentHistory() {
       });
     });
 
-    console.log(exerciseListData);
     setExerciseList(exerciseListData);
   }
 

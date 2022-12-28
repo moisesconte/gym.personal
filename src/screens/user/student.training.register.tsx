@@ -112,7 +112,7 @@ export function StudentTrainingRegister() {
 
   return (
     <VStack flex={1}>
-      <ScreenHeader title="Exercício" />
+      {/* <ScreenHeader title="Exercício" /> */}
 
       <ScrollView contentContainerStyle={{ paddingBottom: 36 }}>
         <VStack p={8}>

@@ -121,7 +121,7 @@ export function StudentTraining() {
 
   return (
     <VStack flex={1}>
-      <ScreenHeader title="Treino do aluno(a)" />
+      {/* <ScreenHeader title="Treino do aluno(a)" /> */}
 
       <VStack justifyContent="space-between" flex={1} p={4}>
         <VStack flex={1}>

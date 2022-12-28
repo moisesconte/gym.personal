@@ -9,6 +9,8 @@ import { AdmStudentTrainingSheet } from "@screens/admin/adm.student.trainingShee
 
 import { AdmStudentTraining } from "@screens/admin/adm.student.training";
 import { AdmStudentTrainingRegister } from "@screens/admin/adm.student.training.register";
+import colors from "native-base/lib/typescript/theme/base/colors";
+import { useTheme } from "native-base";
 
 type StudentProfileProps = {
   studentId?: string;
@@ -32,7 +34,7 @@ type StudentTrainingProps = {
 type StudentTrainingRegisterProps = {
   trainingSheetExerciseId?: string;
   trainingGroupId: string;
-}
+};
 
 type AdmStackRoutesProps = {
   students: undefined;
@@ -49,20 +51,63 @@ export type AdmStackNavigatorRoutesProps =
 const { Navigator, Screen } = createNativeStackNavigator<AdmStackRoutesProps>();
 
 export function AdmStackRoutes() {
+  const { sizes, colors, fonts } = useTheme();
+
   return (
     <Navigator
       initialRouteName="students"
-      screenOptions={{ headerShown: false }}
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: colors.gray[600],
+        },
+        headerTitleStyle: {
+          color: colors.gray[100],
+          fontFamily: fonts.heading,
+        },
+        headerTitleAlign: "center",
+        headerTintColor: colors.gray[100],
+      }}
     >
-      <Screen name="students" component={AdmStudent} />
-      <Screen name="studentProfile" component={AdmStudentProfile} />
+      <Screen
+        name="students"
+        component={AdmStudent}
+        options={{ headerShown: false }}
+      />
+      <Screen
+        name="studentProfile"
+        component={AdmStudentProfile}
+        options={{
+          title: "Perfil do aluno(a)",
+        }}
+      />
       <Screen
         name="studentTrainingSheetList"
         component={AdmStudentTrainingSheetList}
+        options={{
+          title: "Fichas do aluno(a)",
+        }}
       />
-      <Screen name="studentTrainingSheet" component={AdmStudentTrainingSheet} />
-      <Screen name="studentTraining" component={AdmStudentTraining} />
-      <Screen name="studentTrainingRegister" component={AdmStudentTrainingRegister} />
+      <Screen
+        name="studentTrainingSheet"
+        component={AdmStudentTrainingSheet}
+        options={{
+          title: "Ficha do aluno(a)",
+        }}
+      />
+      <Screen
+        name="studentTraining"
+        component={AdmStudentTraining}
+        options={{
+          title: "Treino do aluno(a)",
+        }}
+      />
+      <Screen
+        name="studentTrainingRegister"
+        component={AdmStudentTrainingRegister}
+        options={{
+          title: "Cadastro de exercício",
+        }}
+      />
     </Navigator>
   );
 }

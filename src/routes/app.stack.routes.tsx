@@ -8,6 +8,7 @@ import { StudentTrainingSheetList } from "@screens/user/student.trainingSheetLis
 import { StudentTrainingSheet } from "@screens/user/student.trainingSheet";
 import { StudentTraining } from "@screens/user/student.training";
 import { StudentTrainingRegister } from "@screens/user/student.training.register";
+import { useTheme } from "native-base";
 
 type StudentProfileProps = {
   studentId?: string;
@@ -31,7 +32,7 @@ type StudentTrainingProps = {
 type StudentTrainingRegisterProps = {
   trainingSheetExerciseId?: string;
   trainingGroupId: string;
-}
+};
 
 type AppStackRoutesProps = {
   students: undefined;
@@ -48,19 +49,50 @@ export type AppStackNavigatorRoutesProps =
 const { Navigator, Screen } = createNativeStackNavigator<AppStackRoutesProps>();
 
 export function AppStackRoutes() {
+  const { sizes, colors, fonts } = useTheme();
+
   return (
     <Navigator
       initialRouteName="studentTrainingSheetList"
-      screenOptions={{ headerShown: false }}
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: colors.gray[600],
+        },
+        headerTitleStyle: {
+          color: colors.gray[100],
+          fontFamily: fonts.heading,
+        },
+        headerTitleAlign: "center",
+        headerTintColor: colors.gray[100],
+      }}
     >
       <Screen name="studentProfile" component={AdmStudentProfile} />
       <Screen
         name="studentTrainingSheetList"
         component={StudentTrainingSheetList}
+        options={{ headerShown: false }}
       />
-      <Screen name="studentTrainingSheet" component={StudentTrainingSheet} />
-      <Screen name="studentTraining" component={StudentTraining} />
-      <Screen name="studentTrainingRegister" component={StudentTrainingRegister} />
+      <Screen
+        name="studentTrainingSheet"
+        component={StudentTrainingSheet}
+        options={{
+          title: "Ficha do aluno(a)",
+        }}
+      />
+      <Screen
+        name="studentTraining"
+        component={StudentTraining}
+        options={{
+          title: "Meus treinos",
+        }}
+      />
+      <Screen
+        name="studentTrainingRegister"
+        component={StudentTrainingRegister}
+        options={{
+          title: "Detalhes do treino",
+        }}
+      />
     </Navigator>
   );
 }
