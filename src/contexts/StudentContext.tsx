@@ -1,6 +1,7 @@
 import { ExcerciseGroupDTO } from "@dtos/ExerciseGroupDTO";
 import { ExerciseListDTO } from "@dtos/ExerciseListDTO";
 import { ExercisesDTO } from "@dtos/ExercisesDTO";
+import { IExerciseMarkedAsDoneDTO } from "@dtos/IExerciseMarkedAsDoneDTO";
 import { StudentDTO } from "@dtos/StudentDTO";
 import { TrainingSheetExerciseDTO } from "@dtos/trainingSheetExerciseDTO";
 import { api } from "@services/api";
@@ -120,6 +121,8 @@ export type StudentContextProps = {
   trainingExerciseAdd: (request: TrainingExerciseRequest) => Promise<void>;
   trainingExerciseRemove: (exerciseId: string) => Promise<void>;
   createCredentialApp: (email: string) => Promise<void>;
+  markAsDoneExercise: (exerciseId: string) => Promise<void>;
+  listExerciseMarkAsDone: () => Promise<IExerciseMarkedAsDoneDTO[]>;
 };
 
 type StudentContextProviderProps = {
@@ -342,6 +345,26 @@ export function StudentContextProvider({
     }
   }
 
+  async function markAsDoneExercise(exerciseId: string) {
+    try {
+      await api.post("/training-sheet/exercise/done", { exerciseId });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async function listExerciseMarkAsDone() {
+    try {
+      const { data } = await api.get("/training-sheet/exercise/done/list");
+
+      return data.exerciseMarkedAsDone;
+
+      //
+    } catch (error) {
+      throw error;
+    }
+  }
+
   return (
     <StudentContext.Provider
       value={{
@@ -362,6 +385,8 @@ export function StudentContextProvider({
         trainingExerciseAdd,
         trainingExerciseRemove,
         createCredentialApp,
+        markAsDoneExercise,
+        listExerciseMarkAsDone,
       }}
     >
       {children}

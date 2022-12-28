@@ -1,6 +1,12 @@
 import { Heading, HStack, Text, VStack } from "native-base";
 
-export function HistoryCard() {
+interface HistoryCard {
+  exercise: string;
+  group: string;
+  hour: string;
+}
+
+export function HistoryCard({ exercise, group, hour }: HistoryCard) {
   return (
     <HStack
       w="full"
@@ -13,16 +19,21 @@ export function HistoryCard() {
       justifyContent="space-between"
     >
       <VStack mr={5}>
-        <Heading color="white" fontSize="md" fontFamily="heading" textTransform="capitalize">
-          Costas
+        <Heading
+          color="white"
+          fontSize="md"
+          fontFamily="heading"
+          textTransform="capitalize"
+        >
+          {group}
         </Heading>
         <Text color="gray.100" fontSize="lg" numberOfLines={1}>
-          Puxada frontal
+          {exercise}
         </Text>
       </VStack>
 
       <Text color="gray.300" fontSize="md">
-        08:56
+        {hour}
       </Text>
     </HStack>
   );

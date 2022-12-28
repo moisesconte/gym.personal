@@ -1,9 +1,7 @@
-import { Button } from "@components/Button";
 import { CardTrainingSheet } from "@components/CardAdmTrainingSheet";
 import { HomeHeader } from "@components/HomeHeader";
 import { Loading } from "@components/Loading";
 import { ScreenHeader } from "@components/ScreenHeader";
-import { StudentDTO } from "@dtos/StudentDTO";
 import { useAuth } from "@hooks/useAuth";
 import { useStudent } from "@hooks/useStudent";
 import { useToast } from "@hooks/useToast";
@@ -16,7 +14,15 @@ import { AppStackNavigatorRoutesProps } from "@routes/app.stack.routes";
 import moment from "moment";
 import "moment/locale/pt-br";
 
-import { Box, FlatList, HStack, Text, VStack } from "native-base";
+import {
+  Box,
+  Center,
+  FlatList,
+  Heading,
+  HStack,
+  Text,
+  VStack,
+} from "native-base";
 import { useEffect, useState } from "react";
 
 interface TrainingSheet {
@@ -26,26 +32,18 @@ interface TrainingSheet {
   isActive: boolean;
 }
 
-// interface StudentTrainingSheetListProps {
-//   studentId: string;
-// }
-
 export function StudentTrainingSheetList() {
   const [trainingSheetList, setTrainingSheetList] = useState<TrainingSheet[]>(
     []
   );
-  const [student, setStudent] = useState<StudentDTO>({} as StudentDTO);
   const [isLoading, setIsLoading] = useState(true);
 
   const { user } = useAuth();
-  const { getStudentById, findManyTrainingSheet } = useStudent();
+  const { findManyTrainingSheet } = useStudent();
   const { handleError, showToast } = useToast();
 
   const navigation = useNavigation<AppStackNavigatorRoutesProps>();
   const isFocused = useIsFocused();
-  const route = useRoute();
-
-  // const { studentId } = route.params as StudentTrainingSheetListProps;
 
   function handleOpenStudentTrainingSheet(trainingSheetId: string) {
     navigation.navigate("studentTrainingSheet", { trainingSheetId });
@@ -54,7 +52,7 @@ export function StudentTrainingSheetList() {
   async function listTrainingSheets() {
     try {
       const { trainingSheets } = await findManyTrainingSheet(user.student_id!);
-      console.log(trainingSheets)
+
       setTrainingSheetList(
         trainingSheets.map((item) => {
           return {
@@ -72,11 +70,7 @@ export function StudentTrainingSheetList() {
 
   async function initialScreenLoading() {
     try {
-      console.log(user)
       if (user.student_id) {
-        const studentData = await getStudentById(user.student_id);
-        setStudent(studentData);
-
         await listTrainingSheets();
       }
     } catch (error) {
@@ -97,14 +91,13 @@ export function StudentTrainingSheetList() {
   return (
     <VStack flex={1}>
       <HomeHeader />
-      <ScreenHeader title="Fichas do aluno(a)" />
-
+      
       <VStack p={4} space={4}>
-        <Box p={4} bg="gray.500" borderRadius="md">
-          <Text color="gray.200" fontSize="lg">
-            Aluno(a): {user?.name}
-          </Text>
-        </Box>
+        <Center  pb={4} pt={2}>
+          <Heading color="gray.100" fontSize="xl" fontFamily="heading">
+            Minhas fichas de treinos
+          </Heading>
+        </Center>
 
         <FlatList
           data={trainingSheetList}
@@ -126,7 +119,6 @@ export function StudentTrainingSheetList() {
             </HStack>
           )}
         />
-
       </VStack>
     </VStack>
   );

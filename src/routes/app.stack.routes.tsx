@@ -2,13 +2,12 @@ import {
   createNativeStackNavigator,
   NativeStackNavigationProp,
 } from "@react-navigation/native-stack";
-import { AdmStudentProfile } from "@screens/adm.student.profile";
+import { AdmStudentProfile } from "@screens/admin/adm.student.profile";
 
-import { AdmStudentTrainingRegister } from "@screens/adm.student.training.register";
-import { StudentTrainingSheetList } from "@screens/student.trainingSheetList";
-import { StudentTrainingSheet } from "@screens/student.trainingSheet";
-import { StudentTraining } from "@screens/student.training";
-import { StudentTrainingRegister } from "@screens/student.training.register";
+import { StudentTrainingSheetList } from "@screens/user/student.trainingSheetList";
+import { StudentTrainingSheet } from "@screens/user/student.trainingSheet";
+import { StudentTraining } from "@screens/user/student.training";
+import { StudentTrainingRegister } from "@screens/user/student.training.register";
 
 type StudentProfileProps = {
   studentId?: string;

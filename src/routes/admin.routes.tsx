@@ -9,8 +9,8 @@ import HistorySvg from "@assets/history.svg";
 import ProfileSvg from "@assets/profile.svg";
 
 import { useTheme } from "native-base";
-import { AdmHome } from "@screens/adm.home";
-import { AdmProfile } from "@screens/adm.Profile";
+import { AdmHome } from "@screens/admin/adm.home";
+import { AdmProfile } from "@screens/admin/adm.Profile";
 import { AdmStackRoutes } from "./admin.stack.routes";
 
 type AdminRoutes = {

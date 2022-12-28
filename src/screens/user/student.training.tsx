@@ -17,7 +17,6 @@ import { useStudent } from "@hooks/useStudent";
 import { useToast } from "@hooks/useToast";
 import { StudentDTO } from "@dtos/StudentDTO";
 import { ExerciseCard } from "@components/ExerciseCard";
-import { Button } from "@components/Button";
 import { Loading } from "@components/Loading";
 import { AppStackNavigatorRoutesProps } from "@routes/app.stack.routes";
 

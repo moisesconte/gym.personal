@@ -8,14 +8,11 @@ import HomeSvg from "@assets/home.svg";
 import HistorySvg from "@assets/history.svg";
 import ProfileSvg from "@assets/profile.svg";
 
-import { Home } from "@screens/Home";
-import { Profile } from "@screens/Profile";
-import { History } from "@screens/History";
-import { Exercise } from "@screens/Exercise";
+import { StudentHistory } from "@screens/user/student.History";
 import { useTheme } from "native-base";
-import { color } from "native-base/lib/typescript/theme/styled-system";
 import { AppStackRoutes } from "./app.stack.routes";
-import { StudentProfile } from "@screens/student.Profile";
+import { StudentProfile } from "@screens/user/student.Profile";
+
 
 type AppRoutes = {
   home: undefined;
@@ -60,7 +57,7 @@ export function AppRoutes() {
       />
       <Screen
         name="history"
-        component={History}
+        component={StudentHistory}
         options={{
           tabBarIcon: ({ color }) => (
             <HistorySvg fill={color} width={iconSize} height={iconSize} />
@@ -75,11 +72,6 @@ export function AppRoutes() {
             <ProfileSvg fill={color} width={iconSize} height={iconSize} />
           ),
         }}
-      />
-      <Screen
-        name="exercise"
-        component={Exercise}
-        options={{ tabBarButton: () => null }}
       />
     </Navigator>
   );
