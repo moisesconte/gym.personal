@@ -25,6 +25,7 @@ export type AuthContextDataProps = {
   signOut: () => Promise<void>;
   updateAvatar: (userId: string, avatarUploadForm: FormData) => Promise<any>;
   updatePassword: (password: string, newPassword: string) => Promise<void>;
+  forgotPassword: (email: string) => Promise<void>;
   isLoadingUserStorageData: boolean;
   refreshedToken: string;
 };
@@ -162,6 +163,14 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     }
   }
 
+  async function forgotPassword(email: string) {
+    try {
+      await api.post("/auth/forgot-password", { email });
+    } catch (error) {
+      throw error;
+    }
+  }
+
   useEffect(() => {
     loadUserData();
   }, []);
@@ -185,6 +194,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         signOut,
         updateAvatar,
         updatePassword,
+        forgotPassword,
         isLoadingUserStorageData,
         refreshedToken,
       }}

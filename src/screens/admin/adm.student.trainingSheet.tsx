@@ -1,9 +1,9 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { AdmStackNavigatorRoutesProps } from "@routes/admin.stack.routes";
 import {
-  Box,
   Divider,
   HStack,
+  Icon,
   ScrollView,
   Switch,
   Text,
@@ -16,6 +16,7 @@ import "moment/locale/pt-br";
 import { useForm, Controller } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { Entypo } from "@expo/vector-icons";
 
 import { Button } from "@components/Button";
 import { Input } from "@components/Input";
@@ -330,11 +331,22 @@ export function AdmStudentTrainingSheet() {
                   key={trainingGroup.id}
                   onPress={() => handleOpenStudentTraining(trainingGroup)}
                 >
-                  <Box p={4} bg="gray.600" borderRadius="md">
+                  <HStack
+                    p={4}
+                    bg="gray.600"
+                    borderRadius="md"
+                    alignItems="center"
+                    justifyContent="space-between"
+                  >
                     <Text color="gray.200" fontSize="lg">
                       {trainingGroup.name}
                     </Text>
-                  </Box>
+                    <Icon
+                      as={Entypo}
+                      name="chevron-thin-right"
+                      color="gray.300"
+                    />
+                  </HStack>
                 </TouchableOpacity>
               ))}
             </VStack>

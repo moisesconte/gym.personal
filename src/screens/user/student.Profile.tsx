@@ -7,6 +7,8 @@ import {
   Skeleton,
   Text,
   Heading,
+  HStack,
+  Spinner,
 } from "native-base";
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
@@ -60,12 +62,13 @@ const userSchema = yup.object({
 });
 
 export function StudentProfile() {
-  const { user, updateAvatar, updatePassword } = useAuth();
+  const { user, updateAvatar, updatePassword, forgotPassword } = useAuth();
   const { showToast, handleError } = useToast();
 
   const [photoIsLoading, setPhotoIsLoading] = useState(false);
   const [userPhoto, setUserPhoto] = useState(user.photo_url);
   const [isUpdateLoading, setIsUpdateLoading] = useState(false);
+  const [isForgotPasswordLoading, setIsForgotPasswordLoading] = useState(false);
 
   const isFocused = useIsFocused();
 
@@ -157,6 +160,23 @@ export function StudentProfile() {
       handleError(error);
     } finally {
       setPhotoIsLoading(false);
+    }
+  }
+
+  async function handleForgotPassword() {
+    try {
+      setIsForgotPasswordLoading(true);
+      await forgotPassword(user.login);
+
+      showToast({
+        title: `Foi encaminhado um link de redefinição de senha para o e-mail "${user.login}".`,
+        placement: "top",
+        bgColor: "green.500",
+      });
+    } catch (error) {
+      handleError(error);
+    } finally {
+      setIsForgotPasswordLoading(false);
     }
   }
 
@@ -293,6 +313,20 @@ export function StudentProfile() {
               />
             )}
           />
+
+          <HStack py={5} space={2}>
+            <TouchableOpacity
+              onPress={handleForgotPassword}
+              disabled={isForgotPasswordLoading}
+            >
+              <Text color="gray.200">
+                {isForgotPasswordLoading
+                  ? "Enviando link..."
+                  : "Esqueceu a senha?"}
+              </Text>
+            </TouchableOpacity>
+            {isForgotPasswordLoading && <Spinner color="green.500" />}
+          </HStack>
 
           <Button
             title="Atualizar"

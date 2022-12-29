@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { ScreenHeader } from "@components/ScreenHeader";
 import { useNavigation, useIsFocused } from "@react-navigation/native";
-import { Avatar, Box, FlatList, HStack, Text, VStack } from "native-base";
+import { Avatar, Box, FlatList, HStack, Icon, Text, VStack } from "native-base";
+import { Entypo } from "@expo/vector-icons";
 
 import { Button } from "@components/Button";
 import defaultUserPhotoImg from "@assets/userPhotoDefault.png";
@@ -20,7 +21,7 @@ export function AdmStudent() {
   const isFocused = useIsFocused();
   const { getAllStudent } = useStudent();
   const navigation = useNavigation<AdmStackNavigatorRoutesProps>();
-  const { handleError, showToast } = useToast();
+  const { handleError } = useToast();
 
   async function initialLoading() {
     try {
@@ -68,28 +69,37 @@ export function AdmStudent() {
                   >
                     <HStack
                       alignItems="center"
-                      space={4}
+                      justifyContent="space-between"
+                      
                       p={4}
                       bg="gray.500"
                       borderRadius="md"
                     >
-                      <Avatar
-                        source={
-                          item.photo_url
-                            ? {
-                                uri: `${api.defaults.baseURL}/avatar/${item.photo_url}`,
-                              }
-                            : defaultUserPhotoImg
-                        }
+                      <HStack space={4}>
+                        <Avatar
+                          source={
+                            item.photo_url
+                              ? {
+                                  uri: `${api.defaults.baseURL}/avatar/${item.photo_url}`,
+                                }
+                              : defaultUserPhotoImg
+                          }
+                        />
+                        <VStack>
+                          <Text color="gray.200" fontSize="lg">
+                            {item.name}
+                          </Text>
+                          <Text color="gray.300" fontSize="sm">
+                            {item.email}
+                          </Text>
+                        </VStack>
+                      </HStack>
+
+                      <Icon
+                        as={Entypo}
+                        name="chevron-thin-right"
+                        color="gray.300"
                       />
-                      <VStack>
-                        <Text color="gray.200" fontSize="lg">
-                          {item.name}
-                        </Text>
-                        <Text color="gray.300" fontSize="sm">
-                          {item.email}
-                        </Text>
-                      </VStack>
                     </HStack>
                   </TouchableOpacity>
                 );

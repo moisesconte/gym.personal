@@ -66,6 +66,7 @@ export function AdmStackRoutes() {
         },
         headerTitleAlign: "center",
         headerTintColor: colors.gray[100],
+        headerBackTitle: "voltar",
       }}
     >
       <Screen

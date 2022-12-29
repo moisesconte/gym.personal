@@ -7,6 +7,7 @@ import {
   Heading,
   ScrollView,
   useToast,
+  HStack,
 } from "native-base";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -21,6 +22,7 @@ import { Button } from "@components/Button";
 import { useAuth } from "@hooks/useAuth";
 import { AppError } from "@utils/AppError";
 import { useState } from "react";
+import { TouchableOpacity } from "react-native";
 
 interface FormData {
   login: string;
@@ -49,9 +51,9 @@ export function SignIn() {
     resolver: yupResolver(signUpSchema),
   });
 
-  // function handleNewAccount() {
-  //   navigation.navigate("signUp");
-  // }
+  function handleForgotPassword() {
+    navigation.navigate("forgotPassword");
+  }
 
   async function handleSignIn({ login, password }: FormData) {
     try {
@@ -137,6 +139,14 @@ export function SignIn() {
             onPress={handleSubmit(handleSignIn)}
             isLoading={isLoading}
           />
+        </Center>
+
+        <Center pt={5}>
+          <HStack py={5} space={2}>
+            <TouchableOpacity onPress={handleForgotPassword}>
+              <Text color="gray.200">Esqueceu a senha?</Text>
+            </TouchableOpacity>
+          </HStack>
         </Center>
 
         {/* <Center mt={24}>

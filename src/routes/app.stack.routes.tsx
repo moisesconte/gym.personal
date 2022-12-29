@@ -64,6 +64,7 @@ export function AppStackRoutes() {
         },
         headerTitleAlign: "center",
         headerTintColor: colors.gray[100],
+        headerBackTitle: "voltar",
       }}
     >
       <Screen name="studentProfile" component={AdmStudentProfile} />
