@@ -120,7 +120,7 @@ export function StudentTrainingRegister() {
             w="full"
             h={80}
             source={{
-              uri: `${api.defaults.baseURL}/exercise-demo/${trainingSheetExercise?.exercise?.demo}`,
+              uri: trainingSheetExercise?.exercise?.demo//`${api.defaults.baseURL}/exercise-demo/${trainingSheetExercise?.exercise?.demo}`,
             }}
             alt={`Demonstração do exercício ${trainingSheetExercise.exercise.name}`}
             mb={3}

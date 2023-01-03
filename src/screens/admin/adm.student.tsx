@@ -70,7 +70,6 @@ export function AdmStudent() {
                     <HStack
                       alignItems="center"
                       justifyContent="space-between"
-                      
                       p={4}
                       bg="gray.500"
                       borderRadius="md"
@@ -80,7 +79,7 @@ export function AdmStudent() {
                           source={
                             item.photo_url
                               ? {
-                                  uri: `${api.defaults.baseURL}/avatar/${item.photo_url}`,
+                                  uri: item.photo_url, //`${api.defaults.baseURL}/avatar/${item.photo_url}`,
                                 }
                               : defaultUserPhotoImg
                           }

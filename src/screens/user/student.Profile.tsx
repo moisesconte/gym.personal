@@ -208,7 +208,7 @@ export function StudentProfile() {
               source={
                 user.photo_url
                   ? {
-                      uri: `${api.defaults.baseURL}/avatar/${userPhoto}`,
+                      uri: userPhoto, //`${api.defaults.baseURL}/avatar/${userPhoto}`,
                     }
                   : defaultUserPhotoImg
               }

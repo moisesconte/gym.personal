@@ -5,7 +5,6 @@ import { Heading, HStack, Text, VStack, Icon } from "native-base";
 import defaultUserPhotoImg from "@assets/userPhotoDefault.png";
 import { UserPhoto } from "./UserPhoto";
 import { useAuth } from "@hooks/useAuth";
-import { api } from "@services/api";
 import { useEffect, useState } from "react";
 
 export function HomeHeader() {
@@ -21,7 +20,7 @@ export function HomeHeader() {
       <UserPhoto
         source={
           user.photo_url
-            ? { uri: `${api.defaults.baseURL}/avatar/${userAvatar}` }
+            ? { uri: userAvatar } //{ uri: `${api.defaults.baseURL}/avatar/${userAvatar}` }
             : defaultUserPhotoImg
         }
         alt="Imagem do usuário"

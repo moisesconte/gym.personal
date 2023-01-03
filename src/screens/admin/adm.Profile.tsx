@@ -13,7 +13,6 @@ import {
 } from "native-base";
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
-import { api } from "@services/api";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -72,7 +71,6 @@ export function AdmProfile() {
   const [isForgotPasswordLoading, setIsForgotPasswordLoading] = useState(false);
 
   const isFocused = useIsFocused();
-
   const {
     control,
     handleSubmit,
@@ -209,7 +207,8 @@ export function AdmProfile() {
               source={
                 user.photo_url
                   ? {
-                      uri: `${api.defaults.baseURL}/avatar/${userPhoto}`,
+                      uri: `${userPhoto}`,
+                      //uri: `${api.defaults.baseURL}/avatar/${userPhoto}`,
                     }
                   : defaultUserPhotoImg
               }

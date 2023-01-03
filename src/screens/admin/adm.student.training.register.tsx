@@ -92,7 +92,7 @@ export function AdmStudentTrainingRegister() {
             trainingSheetExerciseId,
           });
 
-        // console.log("trainingSheetExerciseData => ", trainingSheetExerciseData);
+        console.log("trainingSheetExerciseData => ", trainingSheetExerciseData);
         setTrainingSheetExercise(trainingSheetExerciseData);
 
         const exercises = await findExerciseListByGroupId(
@@ -281,7 +281,7 @@ export function AdmStudentTrainingRegister() {
               <Center>
                 <Image
                   source={{
-                    uri: `${api.defaults.baseURL}/exercise-demo/${trainingSheetExercise?.exercise?.demo}`,
+                    uri: trainingSheetExercise?.exercise?.demo//`${api.defaults.baseURL}/exercise-demo/${trainingSheetExercise?.exercise?.demo}`,
                   }}
                   alt="Demonstração do exercício"
                   w={64}
