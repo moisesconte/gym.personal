@@ -92,7 +92,7 @@ export function AdmStudentTrainingRegister() {
             trainingSheetExerciseId,
           });
 
-        console.log("trainingSheetExerciseData => ", trainingSheetExerciseData);
+        // console.log("trainingSheetExerciseData => ", trainingSheetExerciseData);
         setTrainingSheetExercise(trainingSheetExerciseData);
 
         const exercises = await findExerciseListByGroupId(
