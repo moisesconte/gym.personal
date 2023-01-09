@@ -123,7 +123,7 @@ export function AdmStudentTrainingSheetList() {
           )}
         />
 
-        <Button title="Criar nova ficha" onPress={handleCreateTrainingSheet} />
+        <Button title="Nova ficha" onPress={handleCreateTrainingSheet} />
       </VStack>
     </VStack>
   );

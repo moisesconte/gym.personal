@@ -75,7 +75,6 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
       if (data.user && data.token && data.refreshToken) {
         const { user, token, refreshToken } = data;
-
         storageUserAndTokenSave(user, token, refreshToken);
         userAndTokenUpdate(user, token);
       }

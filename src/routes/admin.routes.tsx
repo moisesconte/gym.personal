@@ -3,12 +3,14 @@ import {
   createBottomTabNavigator,
   BottomTabNavigationProp,
 } from "@react-navigation/bottom-tabs";
+import { FontAwesome } from '@expo/vector-icons';
 
 import HomeSvg from "@assets/home.svg";
 import HistorySvg from "@assets/history.svg";
+import StudentsSvg from "@assets/students.svg";
 import ProfileSvg from "@assets/profile.svg";
 
-import { useTheme } from "native-base";
+import { Icon, useTheme } from "native-base";
 import { AdmHome } from "@screens/admin/adm.home";
 import { AdmProfile } from "@screens/admin/adm.Profile";
 import { AdmStackRoutes } from "./admin.stack.routes";
@@ -28,7 +30,7 @@ const { Navigator, Screen } = createBottomTabNavigator<AdminRoutes>();
 export function AdminRoutes() {
   const { sizes, colors } = useTheme();
 
-  const iconSize = sizes[6];
+  const iconSize = sizes[7];
 
   return (
     <Navigator
@@ -61,7 +63,9 @@ export function AdminRoutes() {
         component={AdmStackRoutes}
         options={{
           tabBarIcon: ({ color }) => (
-            <HistorySvg fill={color} width={iconSize} height={iconSize} />
+            //<Icon as={FontAwesome} name="users" color={color} size={5} />
+            <StudentsSvg fill={color} width={iconSize} height={iconSize} />
+            //<HistorySvg fill={color} width={iconSize} height={iconSize} />
           ),
         }}
       />

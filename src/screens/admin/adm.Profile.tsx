@@ -237,6 +237,7 @@ export function AdmProfile() {
                 placeholder="Nome"
                 bg="gray.600"
                 value={value}
+                isReadOnly
                 onChangeText={onChange}
                 errorMessage={errors.name?.message}
               />
@@ -250,7 +251,7 @@ export function AdmProfile() {
               <Input
                 bg="gray.600"
                 placeholder="E-mail"
-                isDisabled
+                isReadOnly
                 value={value}
                 onChangeText={onChange}
                 errorMessage={errors.email?.message}
@@ -329,7 +330,7 @@ export function AdmProfile() {
           </HStack>
 
           <Button
-            title="Atualizar"
+            title="Atualizar senha"
             mt={4}
             isLoading={isUpdateLoading}
             onPress={handleSubmit(handleSubmitForm)}

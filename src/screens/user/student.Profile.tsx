@@ -329,7 +329,7 @@ export function StudentProfile() {
           </HStack>
 
           <Button
-            title="Atualizar"
+            title="Atualizar senha"
             mt={4}
             isLoading={isUpdateLoading}
             onPress={handleSubmit(handleSubmitForm)}

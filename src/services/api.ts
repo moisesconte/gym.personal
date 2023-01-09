@@ -30,7 +30,7 @@ type ApiInstanceProps = AxiosInstance & {
 };
 
 const api = axios.create({
-  baseURL: "http://10.5.50.110:3333/api",//"http://192.168.15.118:3333/api",
+  baseURL: "http://192.168.15.46:3333/api",
 }) as ApiInstanceProps;
 
 let isRefreshing = false;

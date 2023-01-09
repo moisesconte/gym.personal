@@ -177,6 +177,10 @@ export function AdmStudentTrainingSheet() {
         return;
       }
 
+      navigation.setOptions({
+        headerTitle: "Nova Ficha"
+      });
+      
       setIsActive(true);
     } catch (error) {
       handleError(error);
@@ -196,7 +200,7 @@ export function AdmStudentTrainingSheet() {
   if (!trainingSheetId) {
     return (
       <VStack flex={1}>
-        <ScreenHeader title="Nova Ficha" />
+        {/* <ScreenHeader title="Nova Ficha" /> */}
 
         <ScrollView contentContainerStyle={{ paddingBottom: 36 }}>
           <VStack p={4}>
