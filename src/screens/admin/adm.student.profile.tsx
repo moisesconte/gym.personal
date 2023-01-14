@@ -404,6 +404,7 @@ export function AdmStudentProfile() {
               <Input
                 label="E-mail"
                 bg="gray.600"
+                autoCapitalize="none"
                 keyboardType="email-address"
                 value={value}
                 onChangeText={onChange}

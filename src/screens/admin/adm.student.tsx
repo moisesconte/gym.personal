@@ -47,6 +47,7 @@ export function AdmStudent() {
   function handleNewStudent() {
     navigation.navigate("studentProfile", {});
   }
+  
 
   return (
     <VStack flex={1}>
@@ -59,7 +60,7 @@ export function AdmStudent() {
           <VStack p="4" flex={1}>
             <FlatList
               data={students}
-              keyExtractor={(item) => item.id.toString()}
+              keyExtractor={(item) => item?.id.toString()}
               ItemSeparatorComponent={() => <Box h={4} w="full" />}
               showsVerticalScrollIndicator={false}
               renderItem={({ item }) => {
@@ -77,7 +78,7 @@ export function AdmStudent() {
                       <HStack space={4}>
                         <Avatar
                           source={
-                            item.photo_url
+                            item?.photo_url
                               ? {
                                   uri: item.photo_url, //`${api.defaults.baseURL}/avatar/${item.photo_url}`,
                                 }
@@ -86,10 +87,10 @@ export function AdmStudent() {
                         />
                         <VStack>
                           <Text color="gray.200" fontSize="lg">
-                            {item.name}
+                            {item?.name}
                           </Text>
                           <Text color="gray.300" fontSize="sm">
-                            {item.email}
+                            {item?.email}
                           </Text>
                         </VStack>
                       </HStack>
