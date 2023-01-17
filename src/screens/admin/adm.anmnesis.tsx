@@ -40,7 +40,47 @@ const radioOptions = [
   },
 ];
 
-const formSchema = yup.object({});
+const formSchema = yup.object({
+  physical_activity: yup.boolean().required("Campo obrigátorio"),
+  what_physical_activity: yup.string().when("physical_activity", {
+    is: true,
+    then: yup.string().required("Obrigatório o preenchimento"),
+  }),
+  how_many_times_week: yup.number().when("physical_activity", {
+    is: true,
+    then: yup.number().required("Obrigatório o preenchimento"),
+  }),
+  alcoholic_beverages: yup.boolean().required("Campo obrigátorio"),
+  smoker: yup.boolean().required("Campo obrigátorio"),
+  back_problems: yup.boolean().required("Campo obrigátorio"),
+  high_cholesterol: yup.boolean().required("Campo obrigátorio"),
+  hdl_cholesterol: yup.number().when("high_cholesterol", {
+    is: true,
+    then: yup.number().required("Obrigatório o preenchimento"),
+  }),
+  ldl_cholesterol: yup.number().when("high_cholesterol", {
+    is: true,
+    then: yup.number().required("Obrigatório o preenchimento"),
+  }),
+  hypertensive: yup.boolean().required("Campo obrigátorio"),
+  high_triglycerides: yup.boolean().required("Campo obrigátorio"),
+  diabetes: yup.boolean().required("Campo obrigátorio"),
+  breathing_problems: yup.boolean().required("Campo obrigátorio"),
+  what_breathing_problems: yup.string().when("breathing_problems", {
+    is: true,
+    then: yup.string().required("Obrigatório o preenchimento"),
+  }),
+  cardiac_alteration: yup.boolean().required("Campo obrigátorio"),
+  what_cardiac_alteration: yup.string().when("cardiac_alteration", {
+    is: true,
+    then: yup.string().required("Obrigatório o preenchimento"),
+  }),
+  medical_restrictions: yup.boolean().required("Campo obrigátorio"),
+  what_medical_restrictions: yup.string().when("medical_restrictions", {
+    is: true,
+    then: yup.string().required("Obrigatório o preenchimento"),
+  }),
+});
 
 export function AdmAnamnesis() {
   const {
@@ -52,6 +92,10 @@ export function AdmAnamnesis() {
   } = useForm<FormDataProps>({
     resolver: yupResolver(formSchema),
   });
+
+  async function handleFormSubmit(formData: FormDataProps) {
+    console.log(formData);
+  }
 
   return (
     <VStack flex={1}>
@@ -91,7 +135,6 @@ export function AdmAnamnesis() {
           <Controller
             control={control}
             name="how_many_times_week"
-            defaultValue={0}
             render={({ field: { value, onChange } }) => (
               <Input
                 label="Quantas vezes na semana?"
@@ -171,7 +214,6 @@ export function AdmAnamnesis() {
           <Controller
             control={control}
             name="hdl_cholesterol"
-            defaultValue={0}
             render={({ field: { value, onChange } }) => (
               <Input
                 label="Colesterol - HDL"
@@ -187,7 +229,6 @@ export function AdmAnamnesis() {
           <Controller
             control={control}
             name="ldl_cholesterol"
-            defaultValue={0}
             render={({ field: { value, onChange } }) => (
               <Input
                 label="Colesterol - LDL"
@@ -359,7 +400,7 @@ export function AdmAnamnesis() {
           />
 
           <VStack mt={4}>
-            <Button title="Salvar" />
+            <Button title="Salvar" onPress={handleSubmit(handleFormSubmit)} />
           </VStack>
         </VStack>
       </ScrollView>

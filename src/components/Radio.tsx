@@ -32,7 +32,7 @@ export function Radio({
         </Text>
       )}
 
-      <NativeBaseRadio.Group {...rest}>
+      <NativeBaseRadio.Group colorScheme="green" {...rest}>
         <HStack space={4}>
           {options.map((option) => (
             <NativeBaseRadio
