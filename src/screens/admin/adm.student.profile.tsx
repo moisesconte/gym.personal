@@ -259,6 +259,12 @@ export function AdmStudentProfile() {
     });
   }
 
+  function handleOpenAnamnesis() {
+    navigation.navigate("admAnamnesis", {
+      studentId: studentId!,
+    });
+  }
+
   async function handleCreateCredentialApp() {
     try {
       setIsLoadingCreateCredential(true);
@@ -436,6 +442,7 @@ export function AdmStudentProfile() {
           />
           {studentId && (
             <>
+              <Button variant="outline" title="Anamnese" onPress={handleOpenAnamnesis} />
               <Button variant="outline" title="Avaliações" />
               <Button
                 variant="outline"
