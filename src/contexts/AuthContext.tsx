@@ -1,5 +1,6 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
 import md5 from "md5";
+import crypto from "react-native-crypto-js";
 
 import {
   storageAuthTokenGet,
@@ -18,6 +19,14 @@ import {
 
 import { UserDTO } from "@dtos/UserDTO";
 import { api } from "@services/api";
+
+const algorithm = "aes-256-ctr";
+const secretKey = "vOVH6sdmpNWjRRIqCc7rdxs01lwHzfr3";
+
+type Hash = {
+  iv: string;
+  content: string;
+};
 
 export type AuthContextDataProps = {
   user: UserDTO;
@@ -70,7 +79,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     try {
       const { data } = await api.post("/auth/sessions", {
         login,
-        password: md5(password),
+        password: crypto.AES.encrypt(password, secretKey).toString(), //md5(password),
       });
 
       if (data.user && data.token && data.refreshToken) {
@@ -154,8 +163,8 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
   async function updatePassword(password: string, newPassword: string) {
     try {
       const { data } = await api.post("/user/update-password", {
-        password: md5(password),
-        newPassword: md5(newPassword),
+        password: crypto.AES.encrypt(password, secretKey).toString(), //md5(password),//password: md5(password),
+        newPassword: crypto.AES.encrypt(newPassword, secretKey).toString(), //md5(newPassword),
       });
     } catch (error) {
       throw error;
