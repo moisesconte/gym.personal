@@ -12,6 +12,7 @@ import { AuthContextProvider } from "@contexts/AuthContext";
 import { StudentContextProvider } from "@contexts/StudentContext";
 import { ToastContextProvider } from "@contexts/ToastContext";
 import { AnamnesisContextProvider } from "@contexts/AnamnesisContext";
+import { AssessmentContextProvider } from "@contexts/AssessmentContext";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -30,7 +31,9 @@ export default function App() {
         <AuthContextProvider>
           <StudentContextProvider>
             <AnamnesisContextProvider>
-              {fontsLoaded ? <Routes /> : <Loading />}
+              <AssessmentContextProvider>
+                {fontsLoaded ? <Routes /> : <Loading />}
+              </AssessmentContextProvider>
             </AnamnesisContextProvider>
           </StudentContextProvider>
         </AuthContextProvider>

@@ -265,6 +265,12 @@ export function AdmStudentProfile() {
     });
   }
 
+  function handleOpenAssessments() {
+    navigation.navigate("admAssessments", {
+      studentId: studentId!,
+    });
+  }
+
   async function handleCreateCredentialApp() {
     try {
       setIsLoadingCreateCredential(true);
@@ -318,7 +324,7 @@ export function AdmStudentProfile() {
               source={
                 student.photo_url
                   ? {
-                      uri: student.photo_url //`${api.defaults.baseURL}/avatar/${student.photo_url}`,
+                      uri: student.photo_url, //`${api.defaults.baseURL}/avatar/${student.photo_url}`,
                     }
                   : defaultUserPhotoImg
               }
@@ -442,8 +448,16 @@ export function AdmStudentProfile() {
           />
           {studentId && (
             <>
-              <Button variant="outline" title="Anamnese" onPress={handleOpenAnamnesis} />
-              <Button variant="outline" title="Avaliações" />
+              <Button
+                variant="outline"
+                title="Anamnese"
+                onPress={handleOpenAnamnesis}
+              />
+              <Button
+                variant="outline"
+                title="Avaliações"
+                onPress={handleOpenAssessments}
+              />
               <Button
                 variant="outline"
                 title="Fichas"

@@ -12,6 +12,7 @@ import { AdmStudentTrainingRegister } from "@screens/admin/adm.student.training.
 import colors from "native-base/lib/typescript/theme/base/colors";
 import { useTheme } from "native-base";
 import { AdmAnamnesis } from "@screens/admin/adm.anmnesis";
+import { AdmisAssessments } from "@screens/admin/adm.Assessments";
 
 type StudentProfileProps = {
   studentId?: string;
@@ -39,7 +40,11 @@ type StudentTrainingRegisterProps = {
 
 type AdmAnamnesisProps = {
   studentId: string;
-}
+};
+
+type AdmAssessmentsProps = {
+  studentId: string;
+};
 
 type AdmStackRoutesProps = {
   students: undefined;
@@ -49,6 +54,7 @@ type AdmStackRoutesProps = {
   studentTraining: StudentTrainingProps;
   studentTrainingRegister: StudentTrainingRegisterProps;
   admAnamnesis: AdmAnamnesisProps;
+  admAssessments: AdmAssessmentsProps;
 };
 
 export type AdmStackNavigatorRoutesProps =
@@ -121,6 +127,14 @@ export function AdmStackRoutes() {
         component={AdmAnamnesis}
         options={{
           title: "Anamnese",
+        }}
+      />
+
+      <Screen
+        name="admAssessments"
+        component={AdmisAssessments}
+        options={{
+          title: "Avaliações",
         }}
       />
     </Navigator>
