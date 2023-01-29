@@ -17,5 +17,6 @@ export type StudentDTO = {
     login: string;
     name: string;
     role: string;
+    verified: boolean;
   };
 };

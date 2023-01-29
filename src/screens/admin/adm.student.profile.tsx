@@ -463,6 +463,15 @@ export function AdmStudentProfile() {
                 title="Fichas"
                 onPress={handleStudentTrainingSheet}
               />
+              {student.user && !student.user.verified && (
+                <Button
+                  variant="outline"
+                  title="Reenviar credencial/verificação"
+                  isLoading={isLoadingCreateCredential}
+                  onPress={handleCreateCredentialApp}
+                />
+              )}
+
               {!student.user?.login && (
                 <Button
                   variant="outline"
